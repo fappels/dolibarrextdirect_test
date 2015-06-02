@@ -203,6 +203,19 @@ Ext.define('ConnectorTest.model.Product', {
                 type: 'float'
             },
             {
+                name: 'photo_small'
+            },
+            {
+                name: 'photo'
+            },
+            {
+                name: 'has_photo',
+                type: 'int'
+            },
+            {
+                name: 'inventorycode'
+            },
+            {
                 name: 'local_id'
             },
             {
