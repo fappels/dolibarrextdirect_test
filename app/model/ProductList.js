@@ -61,11 +61,14 @@ Ext.define('ConnectorTest.model.ProductList', {
                 type: 'int'
             },
             {
-                name: 'photo_mini'
-            },
-            {
                 name: 'has_photo',
                 type: 'int'
+            },
+            {
+                name: 'photo_size'
+            },
+            {
+                name: 'photo'
             }
         ]
     }

@@ -198,17 +198,14 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 type: 'date'
             },
             {
-                name: 'photo_mini'
+                name: 'has_photo',
+                type: 'int'
             },
             {
-                name: 'photo_small'
+                name: 'photo_size'
             },
             {
                 name: 'photo'
-            },
-            {
-                name: 'has_photo',
-                type: 'int'
             },
             {
                 name: 'app_id'
