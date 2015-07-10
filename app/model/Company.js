@@ -73,6 +73,9 @@ Ext.define('ConnectorTest.model.Company', {
                 name: 'phone'
             },
             {
+                name: 'skype'
+            },
+            {
                 name: 'fax'
             },
             {

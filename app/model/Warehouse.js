@@ -29,7 +29,10 @@ Ext.define('ConnectorTest.model.Warehouse', {
                 name: 'label'
             },
             {
-                name: 'stock_reel'
+                name: 'description'
+            },
+            {
+                name: 'stock'
             }
         ]
     }
