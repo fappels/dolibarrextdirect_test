@@ -1892,8 +1892,8 @@ describe("order", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			expect(testresults).toContain(1);
-			expect(testresults).not.toContain(2);
+			expect(testresults).toContain(warehouseIds[1]);
+			expect(testresults).not.toContain(warehouseIds[2]);
 			
 			if (dolibarrVersion >= 3.7) {
 				expect(testresults.length).toBe(4);
@@ -2152,7 +2152,7 @@ describe("shipment", function ()
 
         runs(function ()
         {
-            expect(testresults).toContain(1);
+            expect(testresults).toContain(warehouseIds[1]);
             expect(shipped).toBe(6);
             if (dolibarrVersion >= 3.7) {
             	expect(testresults.length).toBe(4);
@@ -2624,8 +2624,8 @@ describe("Purchase Order", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			expect(testresults).toContain(1);
-			expect(testresults).not.toContain(2);
+			expect(testresults).toContain(warehouseIds[1]);
+			expect(testresults).not.toContain(warehouseIds[2]);
 			
 			if (dolibarrVersion >= 3.7) {
 				expect(testresults.length).toBe(3);
