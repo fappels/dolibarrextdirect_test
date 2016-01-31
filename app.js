@@ -64,7 +64,9 @@ Ext.application({
         'Town',
         'User',
         'Warehouse',
-        'ContactLinkTypeList'
+        'ContactLinkTypeList',
+	    'IncotermsCode',
+	    'ShipmentMode'
     ],
     
     stores: [
@@ -106,7 +108,9 @@ Ext.application({
 		    'States',
 		    'Towns',
 		    'Users',
-		    'Warehouse'
+		    'Warehouse',
+		    'IncotermsCodes',
+		    'ShipmentModes'
 	],
 	
     views: [

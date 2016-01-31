@@ -143,6 +143,15 @@ Ext.define('ConnectorTest.model.Company', {
                 name: 'stcomm_id'
             },
             {
+                allowNull: false,
+                defaultValue: 0,
+                name: 'tva_assuj',
+                type: 'int'
+            },
+            {
+                name: 'tva_intra'
+            },
+            {
                 name: 'local_id'
             },
             {

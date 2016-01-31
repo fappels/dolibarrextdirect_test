@@ -188,6 +188,17 @@ Ext.define('ConnectorTest.model.Order', {
                 type: 'float'
             },
             {
+                name: 'shipping_method_id',
+                type: 'int'
+            },
+            {
+                name: 'incoterms_id',
+                type: 'int'
+            },
+            {
+                name: 'location_incoterms'
+            },
+            {
                 name: 'app_id'
             }
         ]
