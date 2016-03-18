@@ -60,6 +60,9 @@ Ext.define('ConnectorTest.model.Product', {
                 type: 'float'
             },
             {
+                name: 'price_base_type'
+            },
+            {
                 name: 'stock_reel',
                 type: 'float'
             },

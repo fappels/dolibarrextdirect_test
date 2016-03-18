@@ -72,6 +72,7 @@ Ext.define('ConnectorTest.controller.Main',
 				     {"name":"readWarehouses","len":1},
 				     {"name":"readPriceIndex","len":1},
 				     {"name":"readProductType","len":1},
+				     {"name":"readPriceBaseType","len":1},
 				     {"name":"readBarcodeType","len":1}
 				],
     			"ExtDirectAuthenticate":[
@@ -120,6 +121,9 @@ Ext.define('ConnectorTest.controller.Main',
     			     {"name":"createShipment","len":1},
     			     {"name":"updateShipment","len":1},
     			     {"name":"destroyShipment","len":1},
+    			     {"name":"readShipmentList","len":1},
+    			     {"name":"readShipmentStatus","len":1},
+    			     {"name":"readContactTypes","len":1},
     			     {"name":"readShipmentLine","len":1},
     			     {"name":"createShipmentLine","len":1},
     			     {"name":"updateShipmentLine","len":1},
@@ -396,6 +400,22 @@ Ext.define('ConnectorTest.controller.Main',
 		Ext.getStore('IncotermsCodes').setProxy({
 			type: 'direct',
 		    directFn: ExtDirectCommande.readIncotermCodes
+		});
+		Ext.getStore('PriceBaseTypes').setProxy({
+			type: 'direct',
+		    directFn: ExtDirectFormProduct.readPriceBaseType
+		});
+		Ext.getStore('ShipmentList').setProxy({
+    		type: 'direct',
+            directFn: ExtDirectExpedition.readShipmentList
+    	});
+    	Ext.getStore('ShipmentStatus').setProxy({
+    		type: 'direct',
+            directFn: ExtDirectExpedition.readShipmentStatus
+    	});
+    	Ext.getStore('ShipmentContactTypeList').setProxy({
+			type: 'direct',
+		    directFn: ExtDirectExpedition.readContactTypes
 		});
     },
     

@@ -66,7 +66,9 @@ Ext.application({
         'Warehouse',
         'ContactLinkTypeList',
 	    'IncotermsCode',
-	    'ShipmentMode'
+	    'ShipmentMode',
+	    'PriceBaseType',
+	    'ShipmentList'
     ],
     
     stores: [
@@ -110,7 +112,11 @@ Ext.application({
 		    'Users',
 		    'Warehouse',
 		    'IncotermsCodes',
-		    'ShipmentModes'
+		    'ShipmentModes',
+		    'PriceBaseTypes',
+		    'ShipmentList',
+		    'ShipmentStatus',
+		    'ShipmentContactTypeList'
 	],
 	
     views: [

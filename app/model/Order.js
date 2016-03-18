@@ -199,6 +199,16 @@ Ext.define('ConnectorTest.model.Order', {
                 name: 'location_incoterms'
             },
             {
+                name: 'delivery_address_id',
+                type: 'int'
+            },
+            {
+                name: 'model_pdf'
+            },
+            {
+                name: 'tracking_number'
+            },
+            {
                 name: 'app_id'
             }
         ]
