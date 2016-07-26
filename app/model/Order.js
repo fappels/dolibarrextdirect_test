@@ -131,19 +131,23 @@ Ext.define('ConnectorTest.model.Order', {
                 name: 'weight_units'
             },
             {
-                name: 'weight'
+                name: 'weight',
+                type: 'float'
             },
             {
                 name: 'size_units'
             },
             {
-                name: 'trueDepth'
+                name: 'trueDepth',
+                type: 'float'
             },
             {
-                name: 'trueWidth'
+                name: 'trueWidth',
+                type: 'float'
             },
             {
-                name: 'trueHeight'
+                name: 'trueHeight',
+                type: 'float'
             },
             {
                 name: 'reduction_percent',

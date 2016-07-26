@@ -44,22 +44,22 @@ Ext.define('ConnectorTest.model.OrderLine', {
             },
             {
                 name: 'qty_asked',
-                type: 'int'
+                type: 'float'
             },
             {
                 defaultValue: 0,
                 name: 'qty_shipped',
-                type: 'int'
+                type: 'float'
             },
             {
                 defaultValue: 0,
                 name: 'stock',
-                type: 'int'
+                type: 'float'
             },
             {
                 defaultValue: 0,
                 name: 'qty_toship',
-                type: 'int'
+                type: 'float'
             },
             {
                 name: 'ref'
@@ -72,6 +72,10 @@ Ext.define('ConnectorTest.model.OrderLine', {
             },
             {
                 name: 'product_price',
+                type: 'float'
+            },
+            {
+                name: 'product_price_ttc',
                 type: 'float'
             },
             {
@@ -106,7 +110,8 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 name: 'ref_supplier'
             },
             {
-                name: 'ref_supplier_id'
+                name: 'ref_supplier_id',
+                type: 'int'
             },
             {
                 name: 'tax_tx',
@@ -150,6 +155,10 @@ Ext.define('ConnectorTest.model.OrderLine', {
             },
             {
                 name: 'price_base_type'
+            },
+            {
+                name: 'subprice',
+                type: 'float'
             },
             {
                 name: 'has_batch',

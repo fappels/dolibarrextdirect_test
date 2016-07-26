@@ -32,7 +32,7 @@ Ext.define('ConnectorTest.model.OrderList', {
                 name: 'ref_int'
             },
             {
-                name: 'ref_supplier'
+                name: 'ref_customer'
             },
             {
                 name: 'availability_id',
@@ -58,6 +58,17 @@ Ext.define('ConnectorTest.model.OrderList', {
             {
                 name: 'customer_price_level',
                 type: 'int'
+            },
+            {
+                name: 'total_inc',
+                type: 'float'
+            },
+            {
+                name: 'user_id',
+                type: 'int'
+            },
+            {
+                name: 'user_name'
             }
         ]
     }

@@ -32,10 +32,7 @@ Ext.define('ConnectorTest.model.ShipmentList', {
                 name: 'ref_int'
             },
             {
-                name: 'customer'
-            },
-            {
-                name: 'customer_id',
+                name: 'supplier_id',
                 type: 'int'
             },
             {

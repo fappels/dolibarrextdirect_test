@@ -54,6 +54,9 @@ Ext.define('ConnectorTest.model.DispatchList', {
             },
             {
                 name: 'status'
+            },
+            {
+                name: 'mode'
             }
         ]
     }
