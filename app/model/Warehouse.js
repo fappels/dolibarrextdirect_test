@@ -32,7 +32,8 @@ Ext.define('ConnectorTest.model.Warehouse', {
                 name: 'description'
             },
             {
-                name: 'stock'
+                name: 'stock',
+                type: 'float'
             }
         ]
     }

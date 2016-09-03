@@ -152,6 +152,10 @@ Ext.define('ConnectorTest.model.Company', {
                 name: 'tva_intra'
             },
             {
+            	name: 'typent_id',
+            	type: 'ini'
+            },
+            {
                 name: 'local_id'
             },
             {

@@ -4,4 +4,4 @@
  * combination of content from app.json, and all required package's package.json
  * files.  Customizations should be placed in app.json.
  */
-{"id":"1c2c0a71-50b7-4752-bd8f-a9d4f6a38e68","js":[{"path":"jasmine.js"},{"path":"jasmine-html.js"},{"path":"touch/sencha-touch.js","isSdk":true},{"path":"bootstrap.js"},{"path":"app.js","update":"delta"},{"path":"jasmine-sencha.js"},{"path":"test.js"}],"css":[{"path":"resources/css/app.css","update":"delta"},{"path":"resources/css/jasmine.css","update":"delta"}]}
+{"id":"1c2c0a71-50b7-4752-bd8f-a9d4f6a38e68","js":[{"path":"jasmine.js"},{"path":"jasmine-html.js"},{"bootstrap":true,"isSdk":true,"path":"touch/sencha-touch.js"},{"bootstrap":true,"path":"bootstrap.js"},{"update":"delta","path":"app.js"},{"path":"jasmine-sencha.js"},{"path":"test.js"}],"css":[{"update":"delta","path":"resources/css/app.css"},{"update":"delta","path":"resources/css/jasmine.css"}]}

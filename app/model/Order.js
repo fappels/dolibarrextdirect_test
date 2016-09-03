@@ -213,6 +213,13 @@ Ext.define('ConnectorTest.model.Order', {
                 name: 'tracking_number'
             },
             {
+                name: 'customer_type'
+            },
+            {
+                name: 'reduction',
+                type: 'float'
+            },
+            {
                 name: 'app_id'
             }
         ]
