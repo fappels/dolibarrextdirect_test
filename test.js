@@ -15,7 +15,9 @@ var appUuid = null,
 	customerId = null,
 	actionId,
 	multiPrices = true,
-	dolibarrVersion = null;
+	dolibarrVersion = null,
+	sellby = Ext.Date.format(new Date(2020,5,30),'U'),
+	eatby = Ext.Date.format(new Date(2020,11,31),'U');
 
 var TIMEOUT = 8000;
 
@@ -1270,8 +1272,8 @@ describe("products", function () {
 						productData.photo = null;
 						//productData.productinfo = 'connectortest';
 						if (dolibarrVersion >= 3.7) {
-							productData.sellby = Ext.Date.format(new Date(),'U');
-							productData.eatby = Ext.Date.format(new Date(),'U');
+							productData.sellby = sellby;
+							productData.eatby = eatby;
 							productData.batch = 'batch1';
 							productData.has_batch = 1;
 						}						
@@ -1510,8 +1512,8 @@ describe("products", function () {
 				record.set('correct_stock_movement',0);	
 				record.set('correct_stock_label','batch');
 				record.set('correct_stock_price','15');
-				record.set('sellby',Ext.Date.format(new Date(),'U'));
-				record.set('eatby',Ext.Date.format(new Date(),'U'));
+				record.set('sellby',sellby);
+				record.set('eatby',eatby);
 				record.set('batch','batch2');		
 				record.set('batch_info','batch2 info');
 				productStore.sync();
@@ -2021,7 +2023,9 @@ describe("shipment", function ()
 		testresult = null,
 		shipmentRef = null,
 		shipmentLineIds = [],
-		orderstatusIds = [];
+		orderstatusIds = [],
+        sellbys = [],
+        batches = [];
 
     beforeEach(function ()
     {
@@ -2182,6 +2186,8 @@ describe("shipment", function ()
                     {
                         testresults[index] = record.get('description');
                         shipmentLineIds[index] = record.get('origin_line_id');
+                        sellbys[index] = record.get('sellby');
+                        batches[index] = record.get('batch');
                     });
                     delete shipmentLines;
                     flag = true;
@@ -2202,6 +2208,11 @@ describe("shipment", function ()
                 {
                     expect(testresult).toBe('connectortest');
                 }
+                if (index == 3)
+                {
+                	expect(Ext.Date.format(sellbys[index],'U')).toBe(sellby);
+                	expect(batches[index]).toBe('batch2');
+                }                
             });
         });
     });
@@ -2257,6 +2268,83 @@ describe("shipment", function ()
         });
     });
     
+    it("update shipmentline", function() {
+		var updateRecord = null;
+		
+		runs(function() {
+			flag = false;
+			updateRecord = Ext.getStore('shipmentline').findRecord('origin_line_id',shipmentLineIds[0]);
+			updateRecord.set('qty_toship',1);
+			Ext.getStore('shipmentline').sync();
+			Ext.getStore('shipmentline').load({
+				callback: function (records) {
+					Ext.Array.each(records,function (record) {
+						testresult+=record.get('qty_shipped');
+					});
+					flag = true;
+				}
+			});
+		});
+		
+		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
+		
+		runs(function () {
+			expect(testresult).toBe(5);
+		});
+	});
+    
+	it("update shipmentline remove batch1", function() {
+		var updateRecord = null;
+		
+		runs(function() {
+			flag = false;
+			updateRecord = Ext.getStore('shipmentline').findRecord('origin_line_id',shipmentLineIds[2]);
+			updateRecord.set('qty_toship',0);
+			updateRecord.set('batch','batch1');
+			Ext.getStore('shipmentline').sync();
+			Ext.getStore('shipmentline').load({
+				callback: function (records) {
+					Ext.Array.each(records,function (record) {
+						testresult+=record.get('qty_shipped');
+					});
+					flag = true;
+				}
+			});
+		});
+		
+		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
+		
+		runs(function () {
+			expect(testresult).toBe(4);
+		});
+	});
+	
+	it("update shipmentline update batch2 qty", function() {
+		var updateRecord = null;
+		
+		runs(function() {
+			flag = false;
+			updateRecord = Ext.getStore('shipmentline').findRecord('origin_line_id',shipmentLineIds[3]);
+			updateRecord.set('qty_toship',2);
+			updateRecord.set('batch','batch2');
+			Ext.getStore('shipmentline').sync();
+			Ext.getStore('shipmentline').load({
+				callback: function (records) {
+					Ext.Array.each(records,function (record) {
+						testresult+=record.get('qty_shipped');
+					});
+					flag = true;
+				}
+			});
+		});
+		
+		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
+		
+		runs(function () {
+			expect(testresult).toBe(5);
+		});
+	});
+    
     it("destroy shipmentLine", function() {
 		if (dolibarrVersion >= 3.6) {	
 			Ext.getStore('shipmentline').setDestroyRemovedRecords(true);
@@ -2282,11 +2370,12 @@ describe("shipment", function ()
 			waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 			
 			runs(function () {
-				expect(testresult).toBe(3);
+				expect(testresult).toBe(2);
 			});
 		}
 	});
-
+    
+	
     it("update shipment", function ()
     {
         var record = Ext.getStore('shipment').find('ref', shipmentRef);
@@ -2380,13 +2469,11 @@ describe("shipment", function ()
         {
             expect(testresults).toContain(warehouseIds[1]);
             expect(shipped).toBe(4);
+            expect(testresults.length).toBe(2);
+            expect(asked).toBe(4);
             if (dolibarrVersion >= 3.7) {
-            	expect(testresults.length).toBe(3);
-                expect(asked).toBe(6);
                 expect(testresult).toBe('batch2');
             } else {
-            	expect(testresults.length).toBe(2);
-                expect(asked).toBe(4);
                 expect(testresult).toBe(null);
             }           
         });
