@@ -1673,6 +1673,29 @@ describe("order", function () {
 		testresult = null;
 	});
 	
+	it("read orderconstants", function() {
+		
+		runs(function() {
+			var i=0;
+			
+			flag = false;
+			Ext.getStore('OrderConstants').load({
+				callback: function(records) {
+					Ext.Array.each(records, function (record,index) {
+						testresults[index] = record.get('constant');
+					});
+					flag = true;
+				}
+    		}); 
+		});
+		
+		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
+		
+		runs(function () {
+			expect(testresults).toContain('STOCK_MUST_BE_ENOUGH_FOR_ORDER');
+		});
+	});
+	
 	it("read orderstatuslist", function() {
 		
 		runs(function() {

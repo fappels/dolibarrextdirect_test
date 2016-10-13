@@ -101,7 +101,8 @@ Ext.define('ConnectorTest.controller.Main',
     			     {"name":"destroyOrderLine","len":1},
     			     {"name":"readAvailabilityCodes","len":1},
     			     {"name":"readShipmentModes","len":1},
-    			     {"name":"readIncotermCodes","len":1}
+    			     {"name":"readIncotermCodes","len":1},
+    			     {"name":"readConstants","len":1}
     			],
 		    	"ExtDirectCommandeFournisseur":[
 				     {"name":"readOrder","len":1},
@@ -416,6 +417,10 @@ Ext.define('ConnectorTest.controller.Main',
     	Ext.getStore('ShipmentContactTypeList').setProxy({
 			type: 'direct',
 		    directFn: ExtDirectExpedition.readContactTypes
+		});
+		Ext.getStore('OrderConstants').setProxy({
+			type: 'direct',
+		    directFn: ExtDirectCommande.readConstants
 		});
     },
     

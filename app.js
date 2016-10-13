@@ -68,7 +68,8 @@ Ext.application({
 	    'IncotermsCode',
 	    'ShipmentMode',
 	    'PriceBaseType',
-	    'ShipmentList'
+	    'ShipmentList',
+	    'Constant'
     ],
     
     stores: [
@@ -116,7 +117,8 @@ Ext.application({
 		    'PriceBaseTypes',
 		    'ShipmentList',
 		    'ShipmentStatus',
-		    'ShipmentContactTypeList'
+		    'ShipmentContactTypeList',
+		    'OrderConstants'
 	],
 	
     views: [
