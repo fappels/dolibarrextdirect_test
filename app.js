@@ -118,7 +118,9 @@ Ext.application({
 		    'ShipmentList',
 		    'ShipmentStatus',
 		    'ShipmentContactTypeList',
-		    'OrderConstants'
+		    'OrderConstants',
+		    'ShipmentConstants',
+			'CompanyConstants'
 	],
 	
     views: [

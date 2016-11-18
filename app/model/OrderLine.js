@@ -29,6 +29,9 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 name: 'local_id'
             },
             {
+                name: 'line_id'
+            },
+            {
                 name: 'origin_id',
                 type: 'int'
             },

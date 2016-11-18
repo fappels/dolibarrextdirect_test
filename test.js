@@ -3,7 +3,6 @@
  */
 
 var appUuid = null,
-	app_id = null,
 	warehouseIds = [],
 	priceIndex = null,
 	orderId = null,
@@ -54,7 +53,6 @@ describe("Authentication", function () {
 					Ext.Array.each(records,function (record) {
 						testresult = record;
 						acknowledgeId = testresult.get('ack_id');
-						app_id = testresult.getId();
 					});
 					flag = true;
 				}
@@ -199,7 +197,7 @@ describe("warehouse", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			Ext.Array.each(testresults, function (testresult,index) {
+			Ext.Array.each(testresults, function (testresult) {
 				// label must contain 1 or more characters
 				expect(testresult).toMatch(/^.*$/);
 			});
@@ -231,7 +229,7 @@ describe("priceindex", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			Ext.Array.each(testresults, function (testresult,index) {
+			Ext.Array.each(testresults, function (testresult) {
 				// label must contain 1 or more characters
 				expect(testresult).toMatch(/^.*$/);
 				if (multiPrices) {
@@ -265,7 +263,7 @@ describe("producttype", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			Ext.Array.each(testresults, function (testresult,index) {
+			Ext.Array.each(testresults, function (testresult) {
 				// label must contain 1 or more characters
 				expect(testresult).toMatch(/^Produit|Product|Service$/);
 			});
@@ -319,7 +317,7 @@ describe("availability codes", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			Ext.Array.each(testresults, function (testresult,index) {
+			Ext.Array.each(testresults, function (testresult) {
 				// label must contain 1 or more characters
 				expect(testresult).toMatch(/^AV_.+/);
 			});
@@ -564,7 +562,6 @@ describe("companies", function ()
                     		testresults[0] = record.get('town');
                     	} 
                     });
-                    delete companies;
                     flag = true;
                 }
             });
@@ -687,8 +684,6 @@ describe("companies", function ()
     
     it("update contact", function () //TODO doesn't sync, don't know why
     {
-        var record;
-
         runs(function ()
         {
         	var contacts = Ext.getStore('contacts');
@@ -747,31 +742,6 @@ describe("companies", function ()
         runs(function ()
         {
             expect(testresults).toContain('MyTown');
-        });
-    });
-
-    xit("read categories", function ()
-    {
-
-        runs(function ()
-        {
-
-            flag = false;
-
-            Ext.getStore('categories').load({
-                callback: function (records)
-                {
-                    testresult = records.length;
-                    flag = true;
-                }
-            });
-        });
-
-        waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
-
-        runs(function ()
-        {
-            expect(testresult).toBeGreaterThan(0);
         });
     });
 
@@ -1082,12 +1052,10 @@ describe("actions", function () {
 
 describe("categories", function () {
 	var flag = false,			
-		testresults = [],
-		testresult = null;
+		testresults = [];
 		
 	beforeEach(function() {
 		testresults = [];
-		testresult = null;
 	});	
 	
 	it("create categorie", function() {
@@ -1313,7 +1281,6 @@ describe("products", function () {
 						testresults[2] = record.get('label');
 						//testresults[3] = record.get('productinfo');
 					});
-					delete products;
 					flag = true;
 				}
 			});
@@ -1632,8 +1599,7 @@ describe("products", function () {
 	it("read productbatchlist for product 3", function() {
 		if (dolibarrVersion >= 3.7) {
 			runs(function() {
-				var i=0,
-					recordIndex = productStore.find('ref','CT0003');
+				var recordIndex = productStore.find('ref','CT0003');
 				
 				flag = false;
 				Ext.getStore('productbatchlist').clearFilter();
@@ -1676,8 +1642,6 @@ describe("order", function () {
 	it("read orderconstants", function() {
 		
 		runs(function() {
-			var i=0;
-			
 			flag = false;
 			Ext.getStore('OrderConstants').load({
 				callback: function(records) {
@@ -1758,7 +1722,6 @@ describe("order", function () {
 					Ext.Array.each(records,function (record) {
 						testresult = record.get('ref_customer');
 					});
-					delete order;
 					flag = true;
 				}
 			});
@@ -1828,7 +1791,6 @@ describe("order", function () {
 						testresults[index] = record.get('description');
 						orderLineIds[index] = record.get('origin_line_id');
 					});
-					delete orderLines;
 					flag = true;
 				}
 			});			
@@ -2127,7 +2089,6 @@ describe("shipment", function ()
                         shipmentId = record.get('id');
                         shipmentRef = record.get('ref');
                     });
-                    delete order;
                     flag = true;
                 }
             });
@@ -2198,21 +2159,20 @@ describe("shipment", function ()
                 shipmentLine = Ext.create('ConnectorTest.model.OrderLine', shipmentData);
                 shipmentLines.push(shipmentLine);
             });
-            Ext.getStore('shipmentline').add(shipmentLines);
-            Ext.getStore('shipmentline').sync();
-            Ext.getStore('shipmentline').clearFilter();
-            Ext.getStore('shipmentline').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: shipmentId })]);
-            Ext.getStore('shipmentline').load({
+            shipmentLineStore.add(shipmentLines);
+            shipmentLineStore.sync();
+            shipmentLineStore.clearFilter();
+            shipmentLineStore.filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: shipmentId })]);
+            shipmentLineStore.load({
                 callback: function (records)
                 {
                     Ext.Array.each(records, function (record, index)
                     {
                         testresults[index] = record.get('description');
-                        shipmentLineIds[index] = record.get('origin_line_id');
+                        shipmentLineIds[index] = record.get('line_id');
                         sellbys[index] = record.get('sellby');
                         batches[index] = record.get('batch');
                     });
-                    delete shipmentLines;
                     flag = true;
                 }
             });
@@ -2296,7 +2256,7 @@ describe("shipment", function ()
 		
 		runs(function() {
 			flag = false;
-			updateRecord = Ext.getStore('shipmentline').findRecord('origin_line_id',shipmentLineIds[0]);
+			updateRecord = Ext.getStore('shipmentline').findRecord('line_id',shipmentLineIds[0]);
 			updateRecord.set('qty_toship',1);
 			Ext.getStore('shipmentline').sync();
 			Ext.getStore('shipmentline').load({
@@ -2321,7 +2281,7 @@ describe("shipment", function ()
 		
 		runs(function() {
 			flag = false;
-			updateRecord = Ext.getStore('shipmentline').findRecord('origin_line_id',shipmentLineIds[2]);
+			updateRecord = Ext.getStore('shipmentline').findRecord('line_id',shipmentLineIds[2]);
 			updateRecord.set('qty_toship',0);
 			updateRecord.set('batch','batch1');
 			Ext.getStore('shipmentline').sync();
@@ -2347,7 +2307,7 @@ describe("shipment", function ()
 		
 		runs(function() {
 			flag = false;
-			updateRecord = Ext.getStore('shipmentline').findRecord('origin_line_id',shipmentLineIds[3]);
+			updateRecord = Ext.getStore('shipmentline').findRecord('line_id',shipmentLineIds[3]);
 			updateRecord.set('qty_toship',2);
 			updateRecord.set('batch','batch2');
 			Ext.getStore('shipmentline').sync();
@@ -2604,8 +2564,6 @@ describe("Purchase Order", function () {
 	it("read ContactLinkTypeList", function() {
 		
 		runs(function() {
-			var i=0;
-			
 			flag = false;
 			Ext.getStore('ContactLinkTypeList').load({
 				callback: function(records) {
@@ -2644,14 +2602,13 @@ describe("Purchase Order", function () {
 			orderStore.add(order);					
 			orderStore.sync();
 			orderStore.load({
-				callback: function (records) {					
+				callback: function () {					
 					testresults[0] = order.get('ref_supplier');
 					testresults[1] = order.get('note_private');
 					testresults[2] = order.get('note_public');
 					testresults[3] = order.get('supplier_id');
 					testresults[4] = order.get('orderstatus_id');
 					orderRef = order.get('ref');
-					delete order;
 					flag = true;
 				}
 			});
@@ -2752,7 +2709,6 @@ describe("Purchase Order", function () {
 						testresults[index] = record.get('description');
 						orderLineIds[index] = record.get('origin_line_id');
 					});
-					delete orderLines;
 					flag = true;
 				}
 			});			
@@ -3080,7 +3036,7 @@ describe("warehouse stock", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			Ext.Array.each(testresults, function (testresult,index) {
+			Ext.Array.each(testresults, function (testresult) {
 				// label must contain 1 or more characters
 				expect(testresult).toMatch(/^.*$/);
 				expect(stock[1]).toBeGreaterThan(0);
@@ -3092,11 +3048,9 @@ describe("warehouse stock", function () {
 
 describe("delete Purchase orders", function () {
 	var flag = false,			
-		testresult = null,
-		testresults = [];
+		testresult = null;
 		
 	beforeEach(function() {
-		testresults = [];
 		testresult = null;
 	});
 	
@@ -3138,7 +3092,7 @@ describe("delete Purchase orders", function () {
 			Ext.getStore('PurchaseOrder').removeAt(record);
 			Ext.getStore('PurchaseOrder').sync();
 			Ext.getStore('PurchaseOrder').load({
-				callback: function (records,operation,success) {
+				callback: function () {
 					testresult = Ext.getStore('PurchaseOrder').find('id',purchaseOrderId);
 					flag = true;
 				}
@@ -3156,11 +3110,9 @@ describe("delete Purchase orders", function () {
 
 describe("delete shipments and orders", function () {
 	var flag = false,			
-		testresult = null,
-		testresults = [];
+		testresult = null;
 		
 	beforeEach(function() {
-		testresults = [];
 		testresult = null;
 	});
 	
@@ -3174,7 +3126,7 @@ describe("delete shipments and orders", function () {
 			Ext.getStore('shipment').removeAt(record);
 			Ext.getStore('shipment').sync();
 			Ext.getStore('shipment').load({
-				callback: function (records,operation,success) {
+				callback: function () {
 					testresult = Ext.getStore('shipment').find('id',shipmentId);
 					flag = true;
 				}
@@ -3227,7 +3179,7 @@ describe("delete shipments and orders", function () {
 			Ext.getStore('order').removeAt(record);
 			Ext.getStore('order').sync();
 			Ext.getStore('order').load({
-				callback: function (records,operation,success) {
+				callback: function () {
 					testresult = Ext.getStore('order').find('id',orderId);
 					flag = true;
 				}
@@ -3245,11 +3197,9 @@ describe("delete shipments and orders", function () {
 
 describe("delete products", function () {
 	var flag = false,			
-		testresult = null,
-		testresults = [];
+		testresult = null;
 		
 	beforeEach(function() {
-		testresults = [];
 		testresult = null;
 	});
 	
@@ -3265,7 +3215,7 @@ describe("delete products", function () {
 					Ext.getStore('product').remove(records);
 					Ext.getStore('product').sync();
 					Ext.getStore('product').load({
-						callback: function (records) {
+						callback: function () {
 							testresult = Ext.getStore('product').find('ref','CT0001');
 							flag = true;
 						}
@@ -3293,7 +3243,7 @@ describe("delete products", function () {
 					Ext.getStore('product').remove(records);
 					Ext.getStore('product').sync();
 					Ext.getStore('product').load({
-						callback: function (records) {
+						callback: function () {
 							testresult = Ext.getStore('product').find('ref','CT0002');
 							flag = true;
 						}
@@ -3321,7 +3271,7 @@ describe("delete products", function () {
 					Ext.getStore('product').remove(records);
 					Ext.getStore('product').sync();
 					Ext.getStore('product').load({
-						callback: function (records) {
+						callback: function () {
 							testresult = Ext.getStore('product').find('ref','CT0003');
 							flag = true;
 						}
@@ -3340,12 +3290,10 @@ describe("delete products", function () {
 
 describe("delete categories and actions", function () {
 	var flag = false,			
-		testresult = null,
 		testresults = [];
 		
 	beforeEach(function() {
 		testresults = [];
-		testresult = null;
 	});
 	
 	it("destroy Categorie1", function() {
@@ -3361,7 +3309,7 @@ describe("delete categories and actions", function () {
 					Ext.getStore('categories').remove(records);
 					Ext.getStore('categories').sync();
 					Ext.getStore('categories').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('categories').find('ref','Categorie1'));
 							flag = true;
 						}
@@ -3391,7 +3339,7 @@ describe("delete categories and actions", function () {
 					Ext.getStore('categories').remove(records);
 					Ext.getStore('categories').sync();
 					Ext.getStore('categories').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('categories').find('ref','Categorie2'));
 							flag = true;
 						}
@@ -3421,7 +3369,7 @@ describe("delete categories and actions", function () {
 					Ext.getStore('actions').remove(records);
 					Ext.getStore('actions').sync();
 					Ext.getStore('actions').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('actions').find('ref','myAction'));
 							flag = true;
 						}
@@ -3441,12 +3389,10 @@ describe("delete categories and actions", function () {
 
 describe("delete contacts and companies", function () {
 	var flag = false,			
-		testresult = null,
 		testresults = [];
 		
 	beforeEach(function() {
 		testresults = [];
-		testresult = null;
 	});
 	
 	it("destroy contact", function() {
@@ -3462,7 +3408,7 @@ describe("delete contacts and companies", function () {
 					Ext.getStore('contacts').remove(records);
 					Ext.getStore('contacts').sync();
 					Ext.getStore('contacts').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('contacts').find('name','Contact'));
 							flag = true;
 						}
@@ -3496,7 +3442,7 @@ describe("delete contacts and companies", function () {
 					Ext.getStore('companies').remove(records);
 					Ext.getStore('companies').sync();
 					Ext.getStore('companies').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('companies').find('ref','Company1'));
 							flag = true;
 						}
@@ -3526,7 +3472,7 @@ describe("delete contacts and companies", function () {
 					Ext.getStore('companies').remove(records);
 					Ext.getStore('companies').sync();
 					Ext.getStore('companies').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('companies').find('ref','Company2'));
 							flag = true;
 						}
@@ -3556,7 +3502,7 @@ describe("delete contacts and companies", function () {
 					Ext.getStore('companies').remove(records);
 					Ext.getStore('companies').sync();
 					Ext.getStore('companies').load({
-						callback: function (records) {
+						callback: function () {
 							testresults.push(Ext.getStore('companies').find('ref','Company3'));
 							flag = true;
 						}
@@ -3587,7 +3533,7 @@ describe("destroy Authentication", function () {
 			Ext.getStore('authentication').removeAt(record);
 			Ext.getStore('authentication').sync();
 			Ext.getStore('authentication').load({
-				callback: function (records,operation,success) {
+				callback: function () {
 					testresult = Ext.getStore('authentication').find('app_id',appUuid);
 					flag = true;
 				}

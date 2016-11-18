@@ -156,6 +156,12 @@ Ext.define('ConnectorTest.model.Company', {
             	type: 'ini'
             },
             {
+                name: 'code_client'
+            },
+            {
+                name: 'code_supplier'
+            },
+            {
                 name: 'local_id'
             },
             {
