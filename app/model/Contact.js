@@ -114,6 +114,9 @@ Ext.define('ConnectorTest.model.Contact', {
                 name: 'default_lang'
             },
             {
+                name: 'poste'
+            },
+            {
                 name: 'local_id'
             },
             {

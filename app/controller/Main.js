@@ -176,6 +176,7 @@ Ext.define('ConnectorTest.controller.Main',
     	Ext.Direct.addListener({
     		exception: function(e) {
     			console.log('Exception:' + e.getMessage());
+				console.log('Detail:' + e.getData());
     		},
     		scope: this 
     	});
