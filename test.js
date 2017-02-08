@@ -380,14 +380,15 @@ describe("incoterms codes", function () {
 	});
 });
 
-describe("price_base_type modes", function () {
+describe("Supplier Reputations", function () {
 	var flag = false,
 		testresults = [];
 	
-	it("load price_base_type modes", function() {
+	it("load Supplier Reputations", function() {
+		if (dolibarrVersion >= 5.0)
 		runs(function() {
 			flag = false;
-			Ext.getStore("PriceBaseTypes").load({
+			Ext.getStore("SupplierReputations").load({
 				callback: function(records) {
 					Ext.Array.each(records, function (record,index) {
 						testresults[index] = record.get('code');
@@ -400,8 +401,7 @@ describe("price_base_type modes", function () {
 		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
 		
 		runs(function () {
-			expect(testresults).toContain('HT');
-			expect(testresults).toContain('TTC');
+			expect(testresults).toContain('FAVORITE');
 		});
 	});
 });
@@ -1182,6 +1182,7 @@ describe("products", function () {
 		testresult = null,
 		productRefs = [],
 		productBarcodes = [],
+		supplierRefs = [],
 		productStore;
 		
 	beforeEach(function() {
@@ -1221,7 +1222,8 @@ describe("products", function () {
 				price: 10,
 				price_base_type: 'HT',
 				tva_tx: 20,
-				multiprices_index: priceIndex
+				multiprices_index: priceIndex,
+				desiredstock: 20
 			};
 			for (i=0;i<3;i++) {
 				switch (i) {
@@ -1308,6 +1310,7 @@ describe("products", function () {
 			                                    Ext.create('Ext.util.Filter',{property:"status",value:1}),
 			                                    Ext.create('Ext.util.Filter',{property:"status_buy",value:1}),
 			                                    Ext.create('Ext.util.Filter',{property:"finished",value:1}),
+												Ext.create('Ext.util.Filter',{property:"supplier_id",value:0}), // add supplier info to list
 			                                    Ext.create('Ext.util.Filter',{property:"photo_size",value:'mini'})]);
 			Ext.getStore('productlist').load({
 				callback: function(records) {
@@ -1316,7 +1319,8 @@ describe("products", function () {
 						if (record.get('label') == 'connectortest') {
 							productIds[i] = record.get('product_id');
 							productBarcodes[i] = record.get('barcode');
-							productRefs[i++] = record.get('ref');
+							productRefs[i] = record.get('ref');
+							supplierRefs[i++] = record.get('supplier_ref') 
 							if (record.get('has_photo')) {
 								photo = record.get('photo');
 							}							
@@ -1332,6 +1336,7 @@ describe("products", function () {
 		runs(function () {
 			expect(testresults).toContain('connectortest');	
 			expect(photo).toMatch('jpeg');
+			expect(supplierRefs).toContain('SCT0001');
 		});
 	});
 	
@@ -1496,6 +1501,7 @@ describe("products", function () {
 							testresults.push(record.get('label'));
 							testresults.push(record.get('stock_reel'));
 							testresults.push(record.get('pmp'));
+							testresults.push(record.get('desiredstock'));
 						});
 						flag = true;
 					}
@@ -1508,6 +1514,7 @@ describe("products", function () {
 				expect(testresults).toContain('connectortested');
 				expect(testresults).toContain(5);//stock
 				expect(testresults).toContain(12.5);//pmp 50 + 75 / 10
+				if (dolibarrVersion >= 5.0) expect(testresults).toContain(20);// desiredstock
 			});
 		}		
 	});
@@ -2950,7 +2957,8 @@ describe("Purchase Order", function () {
 	
 	
 	it("read orderline by Id and warehouse_id", function() {
-		var stock=0;
+		var stock=0,
+			desiredStock=0;
 		
 		runs(function() {
 			flag = false;
@@ -2962,6 +2970,7 @@ describe("Purchase Order", function () {
 					Ext.Array.each(records,function (record) {
 						testresults.push(record.get('warehouse_id'));
 						stock+=record.get('stock');
+						desiredStock+=record.get('desiredstock');
 					});
 					flag = true;
 				}
@@ -2973,12 +2982,13 @@ describe("Purchase Order", function () {
 		runs(function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).not.toContain(warehouseIds[2]);
-			
+			expect(testresults.length).toBe(3);
 			if (dolibarrVersion >= 3.7) {
-				expect(testresults.length).toBe(3);
 				expect(stock).toBe(19);
+			} if (dolibarrVersion >= 5.0) {
+				expect(stock).toBe(19);
+				expect(desiredStock).toBe(60);
 			} else {
-				expect(testresults.length).toBe(3);
 				expect(stock).toBe(16);
 			}
 		});

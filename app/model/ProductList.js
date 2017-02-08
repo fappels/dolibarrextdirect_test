@@ -69,6 +69,24 @@ Ext.define('ConnectorTest.model.ProductList', {
             },
             {
                 name: 'photo'
+            },
+            {
+                name: 'price',
+                type: 'float'
+            },
+            {
+                name: 'price_ttc',
+                type: 'float'
+            },
+            {
+                name: 'supplier_ref'
+            },
+            {
+                name: 'supplier_reputation'
+            },
+            {
+                name: 'seuil_stock_alerte',
+                type: 'int'
             }
         ]
     }

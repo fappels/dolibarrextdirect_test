@@ -73,7 +73,8 @@ Ext.define('ConnectorTest.controller.Main',
 				     {"name":"readPriceIndex","len":1},
 				     {"name":"readProductType","len":1},
 				     {"name":"readPriceBaseType","len":1},
-				     {"name":"readBarcodeType","len":1}
+				     {"name":"readBarcodeType","len":1},
+					 {"name":"readSupplierReputations","len":1}
 				],
     			"ExtDirectAuthenticate":[
     			     {"name":"createAuthentication","len":1},
@@ -432,6 +433,10 @@ Ext.define('ConnectorTest.controller.Main',
 		Ext.getStore('ShipmentConstants').setProxy({
 			type: 'direct',
 		    directFn: ExtDirectSociete.readConstants
+		});
+		Ext.getStore('SupplierReputations').setProxy({
+			type: 'direct',
+		    directFn: ExtDirectFormProduct.readSupplierReputations
 		});
     },
     

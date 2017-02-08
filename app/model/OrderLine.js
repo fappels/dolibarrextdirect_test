@@ -212,6 +212,18 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 name: 'photo'
             },
             {
+                name: 'hidden',
+                type: 'boolean'
+            },
+            {
+                name: 'total_stock',
+                type: 'float'
+            },
+            {
+                name: 'desiredstock',
+                type: 'int'
+            },
+            {
                 name: 'app_id'
             }
         ]

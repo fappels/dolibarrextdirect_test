@@ -219,6 +219,14 @@ Ext.define('ConnectorTest.model.Product', {
                 name: 'inventorycode'
             },
             {
+                name: 'seuil_stock_alerte',
+                type: 'int'
+            },
+            {
+                name: 'desiredstock',
+                type: 'int'
+            },
+            {
                 name: 'local_id'
             },
             {
