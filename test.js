@@ -380,6 +380,32 @@ describe("incoterms codes", function () {
 	});
 });
 
+describe("price_base_type modes", function () {
+	var flag = false,
+		testresults = [];
+	
+	it("load price_base_type modes", function() {
+		runs(function() {
+			flag = false;
+			Ext.getStore("PriceBaseTypes").load({
+				callback: function(records) {
+					Ext.Array.each(records, function (record,index) {
+						testresults[index] = record.get('code');
+					});
+					flag = true;
+				}
+    		}); 
+		});
+		
+		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
+		
+		runs(function () {
+			expect(testresults).toContain('HT');
+			expect(testresults).toContain('TTC');
+		});
+	});
+});
+
 describe("Supplier Reputations", function () {
 	var flag = false,
 		testresults = [];
@@ -1320,7 +1346,7 @@ describe("products", function () {
 							productIds[i] = record.get('product_id');
 							productBarcodes[i] = record.get('barcode');
 							productRefs[i] = record.get('ref');
-							supplierRefs[i++] = record.get('supplier_ref') 
+							supplierRefs[i++] = record.get('ref_supplier') 
 							if (record.get('has_photo')) {
 								photo = record.get('photo');
 							}							
@@ -2538,6 +2564,27 @@ describe("Purchase Order", function () {
 		testresult = null;
 	});
 	
+	it("read PurchaseConstants", function() {
+		
+		runs(function() {
+			flag = false;
+			Ext.getStore('PurchaseConstants').load({
+				callback: function(records) {
+					Ext.Array.each(records, function (record,index) {
+						testresults[index] = record.get('constant');
+					});
+					flag = true;
+				}
+    		}); 
+		});
+		
+		waitsFor(function() {return flag;},"extdirect timeout",TIMEOUT);
+		
+		runs(function () {
+			expect(testresults).toContain('STOCK_CALCULATE_ON_SUPPLIER_VALIDATE_ORDER');
+		});
+	});
+
 	it("read orderstatuslist", function() {
 		
 		runs(function() {

@@ -116,7 +116,8 @@ Ext.define('ConnectorTest.controller.Main',
 				     {"name":"readOrderLine","len":1},
 				     {"name":"createOrderLine","len":1},
 				     {"name":"updateOrderLine","len":1},
-				     {"name":"destroyOrderLine","len":1}
+				     {"name":"destroyOrderLine","len":1},
+    			     {"name":"readConstants","len":1}
 				],
     			"ExtDirectExpedition":[
     			     {"name":"readShipment","len":1},
@@ -430,9 +431,13 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 		    directFn: ExtDirectExpedition.readConstants
 		});
-		Ext.getStore('ShipmentConstants').setProxy({
+		Ext.getStore('CompanyConstants').setProxy({
 			type: 'direct',
 		    directFn: ExtDirectSociete.readConstants
+		});
+		Ext.getStore('PurchaseConstants').setProxy({
+			type: 'direct',
+		    directFn: ExtDirectCommandeFournisseur.readConstants
 		});
 		Ext.getStore('SupplierReputations').setProxy({
 			type: 'direct',

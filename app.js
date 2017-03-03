@@ -122,7 +122,8 @@ Ext.application({
 		    'OrderConstants',
 		    'ShipmentConstants',
 			'CompanyConstants',
-			'SupplierReputations'
+			'SupplierReputations',
+			'PurchaseConstants'
 	],
 	
     views: [

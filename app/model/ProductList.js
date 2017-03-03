@@ -79,7 +79,11 @@ Ext.define('ConnectorTest.model.ProductList', {
                 type: 'float'
             },
             {
-                name: 'supplier_ref'
+                name: 'ref_supplier'
+            },
+            {
+                name: 'ref_supplier_id',
+                type: 'int'
             },
             {
                 name: 'supplier_reputation'
