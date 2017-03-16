@@ -54,6 +54,10 @@ Ext.define('ConnectorTest.model.ProductList', {
                 type: 'float'
             },
             {
+                name: 'total_stock',
+                type: 'float'
+            },
+            {
                 name: 'categorie'
             },
             {
@@ -84,6 +88,10 @@ Ext.define('ConnectorTest.model.ProductList', {
             {
                 name: 'ref_supplier_id',
                 type: 'int'
+            },
+            {
+                name: 'qty_supplier',
+                type: 'float'
             },
             {
                 name: 'supplier_reputation'

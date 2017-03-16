@@ -63,7 +63,15 @@ Ext.define('ConnectorTest.model.Product', {
                 name: 'price_base_type'
             },
             {
-                name: 'stock_reel',
+                name: 'stock_reel', // deprecated, TODO refactor
+                type: 'float'
+            },
+            {
+                name: 'stock',
+                type: 'float'
+            },
+            {
+                name: 'total_stock',
                 type: 'float'
             },
             {
