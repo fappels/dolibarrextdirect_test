@@ -167,7 +167,8 @@ Ext.define('ConnectorTest.model.Product', {
                 type: 'int'
             },
             {
-                name: 'price_supplier'
+                name: 'price_supplier',
+                type: 'float'
             },
             {
                 name: 'qty_supplier'
@@ -179,10 +180,15 @@ Ext.define('ConnectorTest.model.Product', {
                 name: 'reduction_supplier'
             },
             {
-                name: 'pu_supplier'
+                name: 'pu_supplier',
+                type: 'float'
             },
             {
-                name: 'vat_supplier'
+                name: 'vat_supplier',
+                type: 'float'
+            },
+            {
+                name: 'price_base_type_supplier'
             },
             {
                 name: 'supplier_id'
