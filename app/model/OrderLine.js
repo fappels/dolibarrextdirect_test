@@ -89,6 +89,9 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 type: 'int'
             },
             {
+                name: 'barcode_with_checksum'
+            },
+            {
                 name: 'product_tax'
             },
             {

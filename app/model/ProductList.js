@@ -99,6 +99,10 @@ Ext.define('ConnectorTest.model.ProductList', {
             {
                 name: 'seuil_stock_alerte',
                 type: 'int'
+            },
+            {
+                name: 'qty_ordered',
+                type: 'float'
             }
         ]
     }

@@ -128,6 +128,9 @@ Ext.define('ConnectorTest.model.Product', {
                 type: 'int'
             },
             {
+                name: 'barcode_with_checksum'
+            },
+            {
                 name: 'warehouse_id',
                 type: 'int'
             },
