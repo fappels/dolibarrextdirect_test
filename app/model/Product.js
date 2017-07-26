@@ -244,6 +244,10 @@ Ext.define('ConnectorTest.model.Product', {
                 type: 'int'
             },
             {
+                name: 'unit_id',
+                type: 'int'
+            },
+            {
                 name: 'local_id'
             },
             {

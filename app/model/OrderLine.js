@@ -227,6 +227,10 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 type: 'int'
             },
             {
+                name: 'unit_id',
+                type: 'int'
+            },
+            {
                 name: 'app_id'
             }
         ]
