@@ -220,6 +220,13 @@ Ext.define('ConnectorTest.model.Order', {
                 type: 'float'
             },
             {
+                name: 'has_signature',
+                type: 'int'
+            },
+            {
+                name: 'signature'
+            },
+            {
                 name: 'app_id'
             }
         ]

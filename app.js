@@ -70,7 +70,9 @@ Ext.application({
 	    'PriceBaseType',
 	    'ShipmentList',
 	    'Constant',
-		'DataConstant'
+		'DataConstant',
+		'OptionalModel',
+		'Optional'
     ],
     
     stores: [
@@ -123,7 +125,9 @@ Ext.application({
 		    'ShipmentConstants',
 			'CompanyConstants',
 			'SupplierReputations',
-			'PurchaseConstants'
+			'PurchaseConstants',
+			'ProductOptionalModel',
+			'ProductOptionals'
 	],
 	
     views: [
