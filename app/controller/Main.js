@@ -105,7 +105,11 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readAvailabilityCodes","len":1},
 						{"name":"readShipmentModes","len":1},
 						{"name":"readIncotermCodes","len":1},
-						{"name":"readConstants","len":1}
+						{"name":"readConstants","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1},
+						{"name":"readLineOptionalModel","len":1},
+						{"name":"readLineOptionals","len":1}
 				],
 				"ExtDirectCommandeFournisseur":[
 						{"name":"readOrder","len":1},
@@ -119,7 +123,11 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"createOrderLine","len":1},
 						{"name":"updateOrderLine","len":1},
 						{"name":"destroyOrderLine","len":1},
-						{"name":"readConstants","len":1}
+						{"name":"readConstants","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1},
+						{"name":"readLineOptionalModel","len":1},
+						{"name":"readLineOptionals","len":1}
 				],
 				"ExtDirectExpedition":[
 						{"name":"readShipment","len":1},
@@ -133,7 +141,11 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"createShipmentLine","len":1},
 						{"name":"updateShipmentLine","len":1},
 						{"name":"destroyShipmentLine","len":1},
-						{"name":"readConstants","len":1}
+						{"name":"readConstants","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1},
+						{"name":"readLineOptionalModel","len":1},
+						{"name":"readLineOptionals","len":1}
 				],
 				"ExtDirectSociete":[
 						{"name":"readSociete","len":1},
@@ -149,14 +161,18 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readPaymentConditions","len":1},
 						{"name":"readCountryConstants","len":1},
 						{"name":"readStateConstants","len":1},
-						{"name":"readConstants","len":1}
+						{"name":"readConstants","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1}
 				],
 				"ExtDirectContact":[
 						{"name":"readContact","len":1},
 						{"name":"readContactList","len":1},
 						{"name":"createContact","len":1},
 						{"name":"updateContact","len":1},
-						{"name":"destroyContact","len":1}
+						{"name":"destroyContact","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1}
 				],
 				"ExtDirectActionComm":[
 						{"name":"readAction","len":1},
@@ -164,7 +180,9 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"createAction","len":1},
 						{"name":"updateAction","len":1},
 						{"name":"destroyAction","len":1},
-						{"name":"getAllUsers","len":1}
+						{"name":"getAllUsers","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1}
 				],
 				"ExtDirectCategorie":[
 						{"name":"readCategorie","len":1},
