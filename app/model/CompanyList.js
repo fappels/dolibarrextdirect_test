@@ -60,6 +60,12 @@ Ext.define('ConnectorTest.model.CompanyList', {
             },
             {
                 name: 'logo_small'
+            },
+            {
+                name: 'code_supplier'
+            },
+            {
+                name: 'code_client'
             }
         ]
     }
