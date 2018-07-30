@@ -65,7 +65,8 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readProductList","len":1},
 						{"name":"readProductBatchList","len":1},
 						{"name":"readOptionalModel","len":1},
-						{"name":"readOptionals","len":1}
+						{"name":"readOptionals","len":1},
+						{"name":"readAttributes","len":1}
 				],
 				"ExtDirectTranslate":[
 						{"name":"load","len":1}
@@ -76,7 +77,8 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readProductType","len":1},
 						{"name":"readPriceBaseType","len":1},
 						{"name":"readBarcodeType","len":1},
-						{"name":"readSupplierReputations","len":1}
+						{"name":"readSupplierReputations","len":1},
+						{"name":"readProductUnits","len":1}
 				],
 				"ExtDirectAuthenticate":[
 						{"name":"createAuthentication","len":1},
@@ -190,7 +192,24 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"updateCategorie","len":1},
 						{"name":"destroyCategorie","len":1},
 						{"name":"readCategorieList","len":1}
-				]	
+				],"ExtDirectFichinter":[
+						{"name":"readIntervention","len":1},
+						{"name":"createIntervention","len":1},
+						{"name":"updateIntervention","len":1},
+						{"name":"destroyIntervention","len":1},
+						{"name":"readList","len":1},
+						{"name":"readStatus","len":1},
+						{"name":"readContactTypes","len":1},
+						{"name":"readInterventionLine","len":1},
+						{"name":"createInterventionLine","len":1},
+						{"name":"updateInterventionLine","len":1},
+						{"name":"destroyInterventionLine","len":1},
+						{"name":"readConstants","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1},
+						{"name":"readLineOptionalModel","len":1},
+						{"name":"readLineOptionals","len":1}
+				]
 			},
 			"total":2200
 		};
@@ -283,6 +302,24 @@ Ext.define('ConnectorTest.controller.Main',
 				destroy: ExtDirectCommandeFournisseur.destroyOrderLine
 				}
 		});
+		Ext.getStore('Intervention').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectFichinter.createIntervention,
+				read: ExtDirectFichinter.readIntervention,
+				update: ExtDirectFichinter.updateIntervention,
+				destroy: ExtDirectFichinter.destroyIntervention
+			}
+		});
+		Ext.getStore('InterventionLines').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectFichinter.createInterventionLine,
+				read: ExtDirectFichinter.readInterventionLine,
+				update: ExtDirectFichinter.updateInterventionLine,
+				destroy: ExtDirectFichinter.destroyInterventionLine
+			}
+		});
 		Ext.getStore('companies').setProxy({
 			type: 'direct',
 			api: {
@@ -355,6 +392,10 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 			directFn: ExtDirectCommandeFournisseur.readOrderList
 		});
+		Ext.getStore('InterventionList').setProxy({
+			type: 'direct',
+			directFn: ExtDirectFichinter.readList
+		});
 		Ext.getStore('productlist').setProxy({
 			type: 'direct',
 			directFn: ExtDirectProduct.readProductList
@@ -370,6 +411,10 @@ Ext.define('ConnectorTest.controller.Main',
 		Ext.getStore('PurchaseOrderStatus').setProxy({
 			type: 'direct',
 			directFn: ExtDirectCommandeFournisseur.readOrderStatus
+		});
+		Ext.getStore('InterventionStatus').setProxy({
+			type: 'direct',
+			directFn: ExtDirectFichinter.readStatus
 		});
 		Ext.getStore('lang').setProxy({
 			type: 'direct',
@@ -458,6 +503,10 @@ Ext.define('ConnectorTest.controller.Main',
 		Ext.getStore('PurchaseConstants').setProxy({
 			type: 'direct',
 			directFn: ExtDirectCommandeFournisseur.readConstants
+		});
+		Ext.getStore('InterventionConstants').setProxy({
+			type: 'direct',
+			directFn: ExtDirectFichinter.readConstants
 		});
 		Ext.getStore('SupplierReputations').setProxy({
 			type: 'direct',

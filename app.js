@@ -72,7 +72,10 @@ Ext.application({
 	    'Constant',
 		'DataConstant',
 		'OptionalModel',
-		'Optional'
+		'Optional',
+		'Intervention',
+		'InterventionLine',
+		'InterventionList'
     ],
     
     stores: [
@@ -127,7 +130,12 @@ Ext.application({
 			'SupplierReputations',
 			'PurchaseConstants',
 			'ProductOptionalModel',
-			'ProductOptionals'
+			'ProductOptionals',
+			'Intervention',
+			'InterventionLines',
+			'InterventionList',
+			'InterventionConstants',
+			'InterventionStatus'
 	],
 	
     views: [
