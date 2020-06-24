@@ -29,9 +29,6 @@ Ext.define('ConnectorTest.model.DispatchList', {
                 name: 'ref'
             },
             {
-                name: 'ref_int'
-            },
-            {
                 name: 'ref_supplier'
             },
             {

@@ -135,6 +135,10 @@ Ext.define('ConnectorTest.model.Product', {
                 type: 'int'
             },
             {
+                name: 'default_warehouse_id',
+                type: 'int'
+            },
+            {
                 name: 'has_batch',
                 type: 'int'
             },

@@ -39,7 +39,7 @@ Ext.define('ConnectorTest.model.Order', {
                 name: 'ref'
             },
             {
-                name: 'ref_int'
+                name: 'ref_ext'
             },
             {
                 name: 'comment'

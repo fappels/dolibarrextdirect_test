@@ -99,6 +99,10 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 type: 'int'
             },
             {
+                name: 'default_warehouse_id',
+                type: 'int'
+            },
+            {
                 name: 'origin_line_id',
                 type: 'int'
             },

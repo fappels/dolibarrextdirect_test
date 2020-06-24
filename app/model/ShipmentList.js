@@ -29,7 +29,7 @@ Ext.define('ConnectorTest.model.ShipmentList', {
                 name: 'ref'
             },
             {
-                name: 'ref_int'
+                name: 'ref_ext'
             },
             {
                 name: 'supplier_id',

@@ -29,7 +29,7 @@ Ext.define('ConnectorTest.model.OrderList', {
                 name: 'ref'
             },
             {
-                name: 'ref_int'
+                name: 'ref_ext'
             },
             {
                 name: 'ref_customer'
