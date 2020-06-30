@@ -66,6 +66,9 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readProductBatchList","len":1},
 						{"name":"readOptionalModel","len":1},
 						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1},
 						{"name":"readAttributes","len":1}
 				],
 				"ExtDirectTranslate":[
@@ -110,8 +113,14 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readConstants","len":1},
 						{"name":"readOptionalModel","len":1},
 						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1},
 						{"name":"readLineOptionalModel","len":1},
-						{"name":"readLineOptionals","len":1}
+						{"name":"readLineOptionals","len":1},
+						{"name":"createLineOptionals","len":1},
+						{"name":"updateLineOptionals","len":1},
+						{"name":"destroyLineOptionals","len":1}
 				],
 				"ExtDirectCommandeFournisseur":[
 						{"name":"readOrder","len":1},
@@ -128,8 +137,14 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readConstants","len":1},
 						{"name":"readOptionalModel","len":1},
 						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1},
 						{"name":"readLineOptionalModel","len":1},
-						{"name":"readLineOptionals","len":1}
+						{"name":"readLineOptionals","len":1},
+						{"name":"createLineOptionals","len":1},
+						{"name":"updateLineOptionals","len":1},
+						{"name":"destroyLineOptionals","len":1}
 				],
 				"ExtDirectExpedition":[
 						{"name":"readShipment","len":1},
@@ -146,8 +161,14 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readConstants","len":1},
 						{"name":"readOptionalModel","len":1},
 						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1},
 						{"name":"readLineOptionalModel","len":1},
-						{"name":"readLineOptionals","len":1}
+						{"name":"readLineOptionals","len":1},
+						{"name":"createLineOptionals","len":1},
+						{"name":"updateLineOptionals","len":1},
+						{"name":"destroyLineOptionals","len":1}
 				],
 				"ExtDirectSociete":[
 						{"name":"readSociete","len":1},
@@ -165,7 +186,10 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readStateConstants","len":1},
 						{"name":"readConstants","len":1},
 						{"name":"readOptionalModel","len":1},
-						{"name":"readOptionals","len":1}
+						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1}
 				],
 				"ExtDirectContact":[
 						{"name":"readContact","len":1},
@@ -174,7 +198,10 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"updateContact","len":1},
 						{"name":"destroyContact","len":1},
 						{"name":"readOptionalModel","len":1},
-						{"name":"readOptionals","len":1}
+						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1}
 				],
 				"ExtDirectActionComm":[
 						{"name":"readAction","len":1},
@@ -184,7 +211,10 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"destroyAction","len":1},
 						{"name":"getAllUsers","len":1},
 						{"name":"readOptionalModel","len":1},
-						{"name":"readOptionals","len":1}
+						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1}
 				],
 				"ExtDirectCategorie":[
 						{"name":"readCategorie","len":1},
@@ -207,8 +237,14 @@ Ext.define('ConnectorTest.controller.Main',
 						{"name":"readConstants","len":1},
 						{"name":"readOptionalModel","len":1},
 						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1},
 						{"name":"readLineOptionalModel","len":1},
-						{"name":"readLineOptionals","len":1}
+						{"name":"readLineOptionals","len":1},
+						{"name":"createLineOptionals","len":1},
+						{"name":"updateLineOptionals","len":1},
+						{"name":"destroyLineOptionals","len":1}
 				]
 			},
 			"total":2200
@@ -518,7 +554,12 @@ Ext.define('ConnectorTest.controller.Main',
 		});
 		Ext.getStore('ProductOptionals').setProxy({
 			type: 'direct',
-			directFn: ExtDirectProduct.readOptionals
+            api: {
+				create: ExtDirectProduct.createOptionals,
+				read: ExtDirectProduct.readOptionals,
+				update: ExtDirectProduct.updateOptionals,
+				destroy: ExtDirectProduct.destroyOptionals
+			}
 		});
 	},
     
