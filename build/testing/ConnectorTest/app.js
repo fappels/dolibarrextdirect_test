@@ -26247,6 +26247,7 @@ Ext.define('ConnectorTest.controller.Main', {extend:Ext.app.Controller, debug:tr
   Ext.getStore('IncotermsCodes').setProxy({type:'direct', directFn:ExtDirectCommande.readIncotermCodes});
   Ext.getStore('PriceBaseTypes').setProxy({type:'direct', directFn:ExtDirectFormProduct.readPriceBaseType});
   Ext.getStore('ShipmentList').setProxy({type:'direct', directFn:ExtDirectExpedition.readShipmentList});
+  Ext.getStore('ShipmentList').on('beforeload', this.onBeforeLoaded, this);
   Ext.getStore('ShipmentStatus').setProxy({type:'direct', directFn:ExtDirectExpedition.readShipmentStatus});
   Ext.getStore('ShipmentContactTypeList').setProxy({type:'direct', directFn:ExtDirectExpedition.readContactTypes});
   Ext.getStore('OrderConstants').setProxy({type:'direct', directFn:ExtDirectCommande.readConstants});

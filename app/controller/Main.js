@@ -524,6 +524,7 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 			directFn: ExtDirectExpedition.readShipmentList
 		});
+		Ext.getStore('ShipmentList').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('ShipmentStatus').setProxy({
 			type: 'direct',
 			directFn: ExtDirectExpedition.readShipmentStatus
