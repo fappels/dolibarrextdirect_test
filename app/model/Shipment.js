@@ -12,14 +12,12 @@ Ext.define('ConnectorTest.model.Shipment', {
     fields: [
         {
             name: 'shipmentstatus_id',
-            type: 'int',
-            critical: true
+            type: 'int'
         },
         {
             dateFormat: 'timestamp',
             name: 'shipment_date',
-            type: 'date',
-            critical: true
+            type: 'date'
         },
         {
             name: 'shipmentstatus'

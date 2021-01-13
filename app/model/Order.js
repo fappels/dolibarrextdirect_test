@@ -225,7 +225,19 @@ Ext.define('ConnectorTest.model.Order', {
             },
             {
                 name: 'signature'
-            },
+			},
+			{
+				name: 'shipmentstatus_id',
+				type: 'int'
+			},
+			{
+				dateFormat: 'timestamp',
+				name: 'shipment_date',
+				type: 'date'
+			},
+			{
+				name: 'shipmentstatus'
+			},
             {
                 name: 'app_id'
             }
