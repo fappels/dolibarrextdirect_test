@@ -75,7 +75,8 @@ Ext.application({
 		'Optional',
 		'Intervention',
 		'InterventionLine',
-		'InterventionList'
+		'InterventionList',
+		'Shipment'
     ],
     
     stores: [

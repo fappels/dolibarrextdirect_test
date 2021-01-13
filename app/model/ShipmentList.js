@@ -36,11 +36,11 @@ Ext.define('ConnectorTest.model.ShipmentList', {
                 type: 'int'
             },
             {
-                name: 'orderstatus_id',
+                name: 'shipmentstatus_id',
                 type: 'int'
             },
             {
-                name: 'orderstatus'
+                name: 'shipmentstatus'
             },
             {
                 name: 'status'

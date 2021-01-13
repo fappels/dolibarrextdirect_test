@@ -17,11 +17,11 @@ Ext.define('ConnectorTest.store.Shipment', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'ConnectorTest.model.Order'
+        'ConnectorTest.model.Shipment'
     ],
 
     config: {
-        model: 'ConnectorTest.model.Order',
+        model: 'ConnectorTest.model.Shipment',
         remoteFilter: true,
         storeId: 'shipment'
     }
