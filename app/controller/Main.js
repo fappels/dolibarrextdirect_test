@@ -396,6 +396,7 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 			directFn: ExtDirectSociete.readSocieteList
 		});
+		Ext.getStore('companylist').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('towns').setProxy({
 			type: 'direct',
 			directFn: ExtDirectSociete.getTowns
@@ -412,10 +413,12 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 			directFn: ExtDirectContact.readContactList
 		});
+		Ext.getStore('contactlist').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('actionlist').setProxy({
 			type: 'direct',
 			directFn: ExtDirectActionComm.readActionList
 		});
+		Ext.getStore('actionlist').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('prospectlevel').setProxy({
 			type: 'direct',
 			directFn: ExtDirectSociete.readProspectLevel
@@ -424,18 +427,22 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 			directFn: ExtDirectCommande.readOrderList
 		});
+		Ext.getStore('orderlist').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('PurchaseOrderList').setProxy({
 			type: 'direct',
 			directFn: ExtDirectCommandeFournisseur.readOrderList
 		});
+		Ext.getStore('PurchaseOrderList').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('InterventionList').setProxy({
 			type: 'direct',
 			directFn: ExtDirectFichinter.readList
 		});
+		Ext.getStore('InterventionList').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('productlist').setProxy({
 			type: 'direct',
 			directFn: ExtDirectProduct.readProductList
 		});
+		Ext.getStore('productlist').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('productbatchlist').setProxy({
 			type: 'direct',
 			directFn: ExtDirectProduct.readProductBatchList
@@ -460,6 +467,7 @@ Ext.define('ConnectorTest.controller.Main',
 			type: 'direct',
 			directFn: ExtDirectFormProduct.readWarehouses
 		});
+		Ext.getStore('warehouse').on('beforeload', this.onBeforeLoaded, this);
 		Ext.getStore('priceindex').setProxy({
 			type: 'direct',
 			directFn: ExtDirectFormProduct.readPriceIndex
@@ -560,6 +568,23 @@ Ext.define('ConnectorTest.controller.Main',
 				update: ExtDirectProduct.updateOptionals,
 				destroy: ExtDirectProduct.destroyOptionals
 			}
+		});
+	},
+
+	/**
+	 * onBeforeLoaded:
+	 * list loaded
+	 * 
+	 * @param {} store
+	 */
+	// eslint-disable-next-line no-unused-vars
+	onBeforeLoaded: function (listStore, operation, eOpts) {
+		var includeTotal = false,
+			allowPaging = false;
+
+		operation.setParams({
+			include_total: includeTotal,
+			allow_paging: allowPaging
 		});
 	},
     
