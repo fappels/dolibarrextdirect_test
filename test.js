@@ -1339,7 +1339,8 @@ describe("products", function () {
 			                                    Ext.create('Ext.util.Filter',{property:"status_buy",value:1}),
 			                                    Ext.create('Ext.util.Filter',{property:"finished",value:1}),
 												Ext.create('Ext.util.Filter',{property:"supplier_id",value:0}), // add supplier info to list
-			                                    Ext.create('Ext.util.Filter',{property:"photo_size",value:'mini'})]);
+			                                    Ext.create('Ext.util.Filter',{property:"photo_size",value:'mini'}),
+												Ext.create('Ext.util.Filter',{property:"content",value:'ct000'})]);
 			Ext.getStore('productlist').load({
 				callback: function(records) {
 					Ext.Array.each(records, function (record,index) {
@@ -1351,7 +1352,7 @@ describe("products", function () {
 							supplierRefs[i++] = record.get('ref_supplier') 
 							if (record.get('has_photo')) {
 								photo = record.get('photo');
-							}							
+							}
 						}
 					});
 					flag = true;
