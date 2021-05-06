@@ -334,25 +334,23 @@ describe("shipment modes", function () {
 		testresults = [];
 
 	it("load shipment modes", function () {
-		if (dolibarrVersion >= 3.7) {
-			runs(function () {
-				flag = false;
-				Ext.getStore("ShipmentModes").load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record, index) {
-							testresults[index] = record.get('code');
-						});
-						flag = true;
-					}
-				});
+		runs(function () {
+			flag = false;
+			Ext.getStore("ShipmentModes").load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('code');
+					});
+					flag = true;
+				}
 			});
+		});
 
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(testresults).toContain('CATCH');
-			});
-		}
+		runs(function () {
+			expect(testresults).toContain('CATCH');
+		});
 	});
 });
 
@@ -361,25 +359,23 @@ describe("incoterms codes", function () {
 		testresults = [];
 
 	it("load incoterms codes", function () {
-		if (dolibarrVersion >= 3.8) {
-			runs(function () {
-				flag = false;
-				Ext.getStore("IncotermsCodes").load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record, index) {
-							testresults[index] = record.get('code');
-						});
-						flag = true;
-					}
-				});
+		runs(function () {
+			flag = false;
+			Ext.getStore("IncotermsCodes").load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('code');
+					});
+					flag = true;
+				}
 			});
+		});
 
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(testresults).toContain('EXW');
-			});
-		}
+		runs(function () {
+			expect(testresults).toContain('EXW');
+		});
 	});
 });
 
@@ -1180,12 +1176,10 @@ describe("products", function () {
 						productData.has_photo = 0;
 						productData.photo = null;
 						//productData.productinfo = 'connectortest';
-						if (dolibarrVersion >= 3.7) {
-							productData.sellby = sellby;
-							productData.eatby = eatby;
-							productData.batch = 'batch1';
-							productData.has_batch = 1;
-						}
+						productData.sellby = sellby;
+						productData.eatby = eatby;
+						productData.batch = 'batch1';
+						productData.has_batch = 1;
 						productData.correct_stock_nbpiece = 5;
 						break;
 
@@ -1383,11 +1377,7 @@ describe("products", function () {
 			expect(testresults).toContain('connectortested');
 			expect(testresults).toContain(5);//stock
 			expect(testresults).toContain(20);
-			if (dolibarrVersion >= 3.8) {
-				expect(testresults).toContain(12.5);//3.8 has pmp calculated in product table
-			} else {
-				expect(testresults).toContain(10);//pmp
-			}
+			expect(testresults).toContain(12.5);
 		});
 	});
 
@@ -1422,9 +1412,7 @@ describe("products", function () {
 		runs(function () {
 			expect(testresult).toBe('CT0002');
 			expect(photo).toMatch('jpeg');
-			if (dolibarrVersion >= 3.8) {
-				expect(unitId).toMatch(6);
-			}
+			expect(unitId).toMatch(6);
 		});
 	});
 
@@ -1457,159 +1445,147 @@ describe("products", function () {
 		var recordIndex = Ext.getStore('product').find('ref', 'CT0003'),
 			record = productStore.getAt(recordIndex);
 
-		if (dolibarrVersion >= 3.7) {
-			runs(function () {
-				flag = false;
-				record.set('label', 'connectortested');
-				record.set('correct_stock_nbpiece', 5);
-				record.set('correct_stock_movement', 0);
-				record.set('correct_stock_label', 'batch');
-				record.set('correct_stock_price', '15');
-				record.set('sellby', sellby);
-				record.set('eatby', eatby);
-				record.set('batch', 'batch2');
-				record.set('batch_info', 'batch2 info');
-				productStore.sync();
-				productStore.clearFilter();
-				productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
-				Ext.create('Ext.util.Filter', { property: "multiprices_index", value: priceIndex }),
-				Ext.create('Ext.util.Filter', { property: "batch", value: 'batch2' }),
-				Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
-				productStore.load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record) {
-							testresults.push(record.get('label'));
-							testresults.push(record.get('stock_reel'));
-							testresults.push(record.get('pmp'));
-							testresults.push(record.get('desiredstock'));
-						});
-						flag = true;
-					}
-				});
+		runs(function () {
+			flag = false;
+			record.set('label', 'connectortested');
+			record.set('correct_stock_nbpiece', 5);
+			record.set('correct_stock_movement', 0);
+			record.set('correct_stock_label', 'batch');
+			record.set('correct_stock_price', '15');
+			record.set('sellby', sellby);
+			record.set('eatby', eatby);
+			record.set('batch', 'batch2');
+			record.set('batch_info', 'batch2 info');
+			productStore.sync();
+			productStore.clearFilter();
+			productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
+			Ext.create('Ext.util.Filter', { property: "multiprices_index", value: priceIndex }),
+			Ext.create('Ext.util.Filter', { property: "batch", value: 'batch2' }),
+			Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
+			productStore.load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record) {
+						testresults.push(record.get('label'));
+						testresults.push(record.get('stock_reel'));
+						testresults.push(record.get('pmp'));
+						testresults.push(record.get('desiredstock'));
+					});
+					flag = true;
+				}
 			});
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		});
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(recordIndex).toBe(0);
-				expect(testresults).toContain('connectortested');
-				expect(testresults).toContain(5);//stock
-				expect(testresults).toContain(12.5);//pmp 50 + 75 / 10
-				if (dolibarrVersion >= 5.0) expect(testresults).toContain(20);// desiredstock
-			});
-		}
+		runs(function () {
+			expect(recordIndex).toBe(0);
+			expect(testresults).toContain('connectortested');
+			expect(testresults).toContain(5);//stock
+			expect(testresults).toContain(12.5);//pmp 50 + 75 / 10
+			if (dolibarrVersion >= 5.0) expect(testresults).toContain(20);// desiredstock
+		});
 	});
 
 	it("move batch 2 from product 3", function () {
 		var recordIndex = Ext.getStore('product').find('ref', 'CT0003'),
 			record = productStore.getAt(recordIndex);
 
-		if (dolibarrVersion >= 3.7) {
-			runs(function () {
-				flag = false;
-				record.set('label', 'movetested');
-				record.set('correct_stock_nbpiece', 2);
-				record.set('correct_stock_movement', 1);
-				record.set('correct_stock_label', 'move');
-				record.set('correct_stock_price', '15');
-				record.set('correct_stock_dest_warehouseid', warehouseIds[2]);
-				record.set('batch', 'batch2');
-				productStore.sync();
-				productStore.clearFilter();
-				productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[2] }),
-				Ext.create('Ext.util.Filter', { property: "multiprices_index", value: priceIndex }),
-				Ext.create('Ext.util.Filter', { property: "batch", value: 'batch2' }),
-				Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
-				productStore.load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record) {
-							testresults.push(record.get('label'));
-							testresults.push(record.get('stock_reel'));
-							testresults.push(record.get('pmp'));
-						});
-						flag = true;
-					}
-				});
-			});
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
-
-			runs(function () {
-				expect(recordIndex).toBe(0);
-				expect(testresults).toContain('movetested');
-				expect(testresults).toContain(2);//stock
-				if (dolibarrVersion >= 3.8) {
-					expect(testresults).toContain(13);//3.8 has pmp calculated in product table TODO check where 13 comes from
-				} else {
-					expect(testresults).toContain(15);//pmp
+		runs(function () {
+			flag = false;
+			record.set('label', 'movetested');
+			record.set('correct_stock_nbpiece', 2);
+			record.set('correct_stock_movement', 1);
+			record.set('correct_stock_label', 'move');
+			record.set('correct_stock_price', '15');
+			record.set('correct_stock_dest_warehouseid', warehouseIds[2]);
+			record.set('batch', 'batch2');
+			productStore.sync();
+			productStore.clearFilter();
+			productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[2] }),
+			Ext.create('Ext.util.Filter', { property: "multiprices_index", value: priceIndex }),
+			Ext.create('Ext.util.Filter', { property: "batch", value: 'batch2' }),
+			Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
+			productStore.load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record) {
+						testresults.push(record.get('label'));
+						testresults.push(record.get('stock_reel'));
+						testresults.push(record.get('pmp'));
+					});
+					flag = true;
 				}
 			});
-		}
+		});
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(recordIndex).toBe(0);
+			expect(testresults).toContain('movetested');
+			expect(testresults).toContain(2);//stock
+			expect(testresults).toContain(13);//pmp
+		});
 	});
 
 	it("correct batch 2 qty from product 3", function () {
 		var recordIndex = Ext.getStore('product').find('ref', 'CT0003'),
 			record = productStore.getAt(recordIndex);
 
-		if (dolibarrVersion >= 3.7) {
-			runs(function () {
-				flag = false;
-				record.set('label', 'correcttested');
-				record.set('correct_stock_nbpiece', 3);
-				record.set('correct_stock_movement', 0);
-				record.set('correct_stock_label', 'correct');
-				record.set('correct_stock_price', '15');
-				record.set('batch', 'batch2');
-				productStore.sync();
-				productStore.clearFilter();
-				productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[2] }),
-				Ext.create('Ext.util.Filter', { property: "multiprices_index", value: priceIndex }),
-				Ext.create('Ext.util.Filter', { property: "batch", value: 'batch2' }),
-				Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
-				productStore.load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record) {
-							testresults.push(record.get('label'));
-							testresults.push(record.get('stock_reel'));
-						});
-						flag = true;
-					}
-				});
+		runs(function () {
+			flag = false;
+			record.set('label', 'correcttested');
+			record.set('correct_stock_nbpiece', 3);
+			record.set('correct_stock_movement', 0);
+			record.set('correct_stock_label', 'correct');
+			record.set('correct_stock_price', '15');
+			record.set('batch', 'batch2');
+			productStore.sync();
+			productStore.clearFilter();
+			productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[2] }),
+			Ext.create('Ext.util.Filter', { property: "multiprices_index", value: priceIndex }),
+			Ext.create('Ext.util.Filter', { property: "batch", value: 'batch2' }),
+			Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
+			productStore.load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record) {
+						testresults.push(record.get('label'));
+						testresults.push(record.get('stock_reel'));
+					});
+					flag = true;
+				}
 			});
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		});
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(recordIndex).toBe(0);
-				expect(testresults).toContain('correcttested');
-				expect(testresults).toContain(5);
-			});
-		}
+		runs(function () {
+			expect(recordIndex).toBe(0);
+			expect(testresults).toContain('correcttested');
+			expect(testresults).toContain(5);
+		});
 	});
 
 	it("read productbatchlist for product 3", function () {
-		if (dolibarrVersion >= 3.7) {
-			runs(function () {
-				var recordIndex = productStore.find('ref', 'CT0003');
+		runs(function () {
+			var recordIndex = productStore.find('ref', 'CT0003');
 
-				flag = false;
-				Ext.getStore('productbatchlist').clearFilter();
-				Ext.getStore('productbatchlist').filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
-				Ext.create('Ext.util.Filter', { property: "product_id", value: productStore.getAt(recordIndex).getId() })]);
-				Ext.getStore('productbatchlist').load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record, index) {
-							testresults[index] = record.get('batch');
-						});
-						flag = true;
-					}
-				});
+			flag = false;
+			Ext.getStore('productbatchlist').clearFilter();
+			Ext.getStore('productbatchlist').filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
+			Ext.create('Ext.util.Filter', { property: "product_id", value: productStore.getAt(recordIndex).getId() })]);
+			Ext.getStore('productbatchlist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('batch');
+					});
+					flag = true;
+				}
 			});
+		});
 
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(testresults).toContain('batch1');
-				expect(testresults).toContain('batch2');
-			});
-		}
+		runs(function () {
+			expect(testresults).toContain('batch1');
+			expect(testresults).toContain('batch2');
+		});
 	});
 });
 
@@ -1693,13 +1669,9 @@ describe("order", function () {
 				order_date: Ext.Date.format(new Date(), 'U')
 			};
 			order = Ext.create('ConnectorTest.model.Order', orderData);
-			if (dolibarrVersion >= 3.7) {
-				order.set('shipping_method_id', 1);
-			}
-			if (dolibarrVersion >= 3.8) {
-				order.set('incoterms_id', 2);
-				order.set('location_incoterms', 'location incoterms')
-			}
+			order.set('shipping_method_id', 1);
+			order.set('incoterms_id', 2);
+			order.set('location_incoterms', 'location incoterms')
 			orderStore = Ext.getStore('order');
 			orderStore.add(order);
 			orderStore.sync();
@@ -1803,13 +1775,9 @@ describe("order", function () {
 				callback: function (records) {
 					Ext.Array.each(records, function (record) {
 						testresults.push(record.get('ref'));
-						if (dolibarrVersion >= 3.7) {
-							testresults.push(record.get('shipping_method_id'));
-						}
-						if (dolibarrVersion >= 3.8) {
-							testresults.push(record.get('incoterms_id'));
-							testresults.push(record.get('location_incoterms'));
-						}
+						testresults.push(record.get('shipping_method_id'));
+						testresults.push(record.get('incoterms_id'));
+						testresults.push(record.get('location_incoterms'));
 					});
 					flag = true;
 				}
@@ -1820,13 +1788,9 @@ describe("order", function () {
 
 		runs(function () {
 			expect(testresults).toContain(orderRef);
-			if (dolibarrVersion >= 3.7) {
-				expect(testresults).toContain(1);
-			}
-			if (dolibarrVersion >= 3.8) {
-				expect(testresults).toContain(2);
-				expect(testresults).toContain('location incoterms');
-			}
+			expect(testresults).toContain(1);
+			expect(testresults).toContain(2);
+			expect(testresults).toContain('location incoterms');
 		});
 	});
 
@@ -1915,15 +1879,9 @@ describe("order", function () {
 			if (dolibarrVersion >= 9.0) {
 				expect(defaultWarehouseIds).toContain(warehouseIds[1]);
 			}
-			if (dolibarrVersion >= 3.7) {
-				expect(testresults.length).toBe(6);
-				expect(stock).toBe(33);
-				expect(asked).toBe(12); // 6 * 2 asked
-			} else {
-				expect(testresults.length).toBe(4);
-				expect(stock).toBe(25);
-				expect(asked).toBe(8); // 4 * 2 asked
-			}
+			expect(testresults.length).toBe(6);
+			expect(stock).toBe(33);
+			expect(asked).toBe(12); // 6 * 2 asked
 			expect(photo).toMatch('jpeg');
 		});
 	});
@@ -1950,11 +1908,7 @@ describe("order", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
-			if (dolibarrVersion >= 3.7) {
-				expect(testresult).toBe(16); //4 * 2 asked + 2 * 4 asked
-			} else {
-				expect(testresult).toBe(12); //2 * 2 asked + 2 * 4 asked
-			}
+			expect(testresult).toBe(16); //4 * 2 asked + 2 * 4 asked
 		});
 	});
 
@@ -1983,13 +1937,8 @@ describe("order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).not.toContain(warehouseIds[2]);
 
-			if (dolibarrVersion >= 3.7) {
-				expect(testresults.length).toBe(4);
-				expect(stock).toBe(23);
-			} else {
-				expect(testresults.length).toBe(3);
-				expect(stock).toBe(20);
-			}
+			expect(testresults.length).toBe(4);
+			expect(stock).toBe(23);
 		});
 	});
 });
@@ -2058,13 +2007,9 @@ describe("shipment", function () {
 				deliver_date: Ext.Date.format(new Date(), 'U')
 			};
 			shipment = Ext.create('ConnectorTest.model.Shipment', shipmentData);
-			if (dolibarrVersion >= 3.7) {
-				shipment.set('shipping_method_id', 1);
-			}
-			if (dolibarrVersion >= 3.8) {
-				shipment.set('incoterms_id', 2);
-				shipment.set('location_incoterms', 'location incoterms')
-			}
+			shipment.set('shipping_method_id', 1);
+			shipment.set('incoterms_id', 2);
+			shipment.set('location_incoterms', 'location incoterms')
 			Ext.getStore('shipment').add(shipment);
 			Ext.getStore('shipment').sync();
 			Ext.getStore('shipment').clearFilter();
@@ -2190,13 +2135,9 @@ describe("shipment", function () {
 						testresults.push(record.get('note_public'));
 						testresults.push(record.get('note_private'));
 						testresults.push(record.get('tracking_number'));
-						if (dolibarrVersion >= 3.7) {
-							testresults.push(record.get('shipping_method_id'));
-						}
-						if (dolibarrVersion >= 3.8) {
-							testresults.push(record.get('incoterms_id'));
-							testresults.push(record.get('location_incoterms'));
-						}
+						testresults.push(record.get('shipping_method_id'));
+						testresults.push(record.get('incoterms_id'));
+						testresults.push(record.get('location_incoterms'));
 					});
 					flag = true;
 				}
@@ -2210,13 +2151,9 @@ describe("shipment", function () {
 			expect(testresults).toContain('connectortest public');
 			expect(testresults).toContain('connectortest private');
 			expect(testresults).toContain('connectortest tracking');
-			if (dolibarrVersion >= 3.7) {
-				expect(testresults).toContain(1);
-			}
-			if (dolibarrVersion >= 3.8) {
-				expect(testresults).toContain(2);
-				expect(testresults).toContain('location incoterms');
-			}
+			expect(testresults).toContain(1);
+			expect(testresults).toContain(2);
+			expect(testresults).toContain('location incoterms');
 		});
 	});
 
@@ -2298,33 +2235,31 @@ describe("shipment", function () {
 	});
 
 	it("destroy shipmentLine", function () {
-		if (dolibarrVersion >= 3.6) {
-			Ext.getStore('shipmentline').setDestroyRemovedRecords(true);
-			Ext.getStore('shipmentline').setSyncRemovedRecords(true);
-			runs(function () {
-				flag = false;
-				Ext.getStore('shipmentline').clearFilter();
-				Ext.getStore('shipmentline').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: shipmentId })]);
-				Ext.getStore('shipmentline').load({
-					callback: function (records) {
-						Ext.getStore('shipmentline').remove(records[0]); // remove first line
-						Ext.getStore('shipmentline').sync();
-						Ext.getStore('shipmentline').load({
-							callback: function (records) {
-								testresult = records.length;
-								flag = true;
-							}
-						});
-					}
-				});
+		Ext.getStore('shipmentline').setDestroyRemovedRecords(true);
+		Ext.getStore('shipmentline').setSyncRemovedRecords(true);
+		runs(function () {
+			flag = false;
+			Ext.getStore('shipmentline').clearFilter();
+			Ext.getStore('shipmentline').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: shipmentId })]);
+			Ext.getStore('shipmentline').load({
+				callback: function (records) {
+					Ext.getStore('shipmentline').remove(records[0]); // remove first line
+					Ext.getStore('shipmentline').sync();
+					Ext.getStore('shipmentline').load({
+						callback: function (records) {
+							testresult = records.length;
+							flag = true;
+						}
+					});
+				}
 			});
+		});
 
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(testresult).toBe(2);
-			});
-		}
+		runs(function () {
+			expect(testresult).toBe(2);
+		});
 	});
 
 
@@ -2381,49 +2316,45 @@ describe("shipment", function () {
 	});
 
 	it("check stock after shipment validation", function () {
-		if (dolibarrVersion >= 3.7) {
-			var productStore = Ext.getStore('product'),
-				productStock = 0,
-				batchStock = 0,
-				productId;
+		var productStore = Ext.getStore('product'),
+			productStock = 0,
+			batchStock = 0,
+			productId;
 
-			runs(function () {
-				flag = false;
-				productStore.clearFilter();
-				productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
-				Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
-				productStore.load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record) {
-							productStock = record.get('stock_reel');
-							productId = record.getId();
-						});
-						Ext.getStore('productbatchlist').clearFilter();
-						Ext.getStore('productbatchlist').filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
-						Ext.create('Ext.util.Filter', { property: "product_id", value: productId })]);
-						Ext.getStore('productbatchlist').load({
-							callback: function (records) {
-								Ext.Array.each(records, function (record, index) {
-									testresults[index] = record.get('batch');
-									batchStock += record.get('stock_reel');
-								});
-								flag = true;
-							}
-						});
-					}
-				});
-
-
+		runs(function () {
+			flag = false;
+			productStore.clearFilter();
+			productStore.filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
+			Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
+			productStore.load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record) {
+						productStock = record.get('stock_reel');
+						productId = record.getId();
+					});
+					Ext.getStore('productbatchlist').clearFilter();
+					Ext.getStore('productbatchlist').filter([Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] }),
+					Ext.create('Ext.util.Filter', { property: "product_id", value: productId })]);
+					Ext.getStore('productbatchlist').load({
+						callback: function (records) {
+							Ext.Array.each(records, function (record, index) {
+								testresults[index] = record.get('batch');
+								batchStock += record.get('stock_reel');
+							});
+							flag = true;
+						}
+					});
+				}
 			});
+		});
 
-			waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
-			runs(function () {
-				expect(testresults).toContain('batch1');
-				expect(testresults).toContain('batch2');
-				expect(batchStock).toBe(productStock);
-			});
-		}
+		runs(function () {
+			expect(testresults).toContain('batch1');
+			expect(testresults).toContain('batch2');
+			expect(batchStock).toBe(productStock);
+		});
 	});
 
 	it("read shipmentline by origin Id", function () {
@@ -2456,11 +2387,7 @@ describe("shipment", function () {
 			expect(shipped).toBe(4);
 			expect(testresults.length).toBe(2);
 			expect(asked).toBe(4);
-			if (dolibarrVersion >= 3.7) {
-				expect(testresult).toBe('batch2');
-			} else {
-				expect(testresult).toBe(null);
-			}
+			expect(testresult).toBe('batch2');
 		});
 	});
 });
@@ -2710,11 +2637,7 @@ describe("Purchase Order", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
-			if (dolibarrVersion >= 3.7) {
-				expect(testresult).toBe(14);
-			} else {
-				expect(testresult).toBe(12);
-			}
+			expect(testresult).toBe(14);
 		});
 	});
 
@@ -2898,18 +2821,10 @@ describe("Purchase Order", function () {
 		runs(function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).toContain(warehouseIds[2]);
-			if (dolibarrVersion >= 3.7) {
-				expect(testresults.length).toBe(5);
-				expect(stock).toBe(29);
-				expect(asked).toBe(14);
-				if (dolibarrVersion >= 3.8) {
-					expect(unitIds).toContain(6);
-				}
-			} else {
-				expect(testresults.length).toBe(4);
-				expect(stock).toBe(21);
-				expect(asked).toBe(12);
-			}
+			expect(testresults.length).toBe(5);
+			expect(stock).toBe(29);
+			expect(asked).toBe(14);
+			expect(unitIds).toContain(6);
 			expect(photo).toMatch('jpeg');
 		});
 	});
@@ -2943,13 +2858,9 @@ describe("Purchase Order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).not.toContain(warehouseIds[2]);
 			expect(testresults.length).toBe(3);
-			if (dolibarrVersion >= 3.7) {
-				expect(stock).toBe(19);
-			} if (dolibarrVersion >= 5.0) {
-				expect(stock).toBe(19);
+			expect(stock).toBe(19);
+			if (dolibarrVersion >= 5.0) {
 				expect(desiredStock).toBe(60);
-			} else {
-				expect(stock).toBe(16);
 			}
 		});
 	});
@@ -2975,11 +2886,7 @@ describe("Purchase Order", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
-			if (dolibarrVersion >= 3.7) {
-				expect(testresult).toBe(2);
-			} else {
-				expect(testresult).toBe(2);
-			}
+			expect(testresult).toBe(2);
 		});
 	});
 });
@@ -3567,7 +3474,7 @@ describe("delete products", function () {
 					Ext.getStore('product').remove(records);
 					Ext.getStore('product').sync();
 					Ext.getStore('product').load({
-						callback: function (records) {
+						callback: function () {
 							testresult = Ext.getStore('product').find('ref', 'CT0001');
 							flag = true;
 						}
