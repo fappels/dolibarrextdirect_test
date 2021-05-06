@@ -1941,6 +1941,30 @@ describe("order", function () {
 			expect(stock).toBe(23);
 		});
 	});
+
+	it("read orderlist shippable", function () {
+
+		runs(function () {
+			flag = false;
+			Ext.getStore('orderlist').clearFilter();
+			Ext.getStore('orderlist').filter([Ext.create('Ext.util.Filter', { property: "orderstatus_id", value: orderstatusIds[5] })]);
+			Ext.getStore('orderlist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('orderstatus');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults).toContain('Validated shippable');
+			expect(testresults).not.toContain('Validated partly shippable');
+		});
+	});
 });
 
 describe("shipment", function () {
