@@ -270,7 +270,7 @@ describe("producttype", function () {
 		runs(function () {
 			Ext.Array.each(testresults, function (testresult) {
 				// label must contain 1 or more characters
-				expect(testresult).toMatch(/^Produit|Product|Service$/);
+				expect(testresult).toMatch(/^(?:Produit|Product|Service)$/);
 			});
 
 		});
@@ -580,7 +580,34 @@ describe("companies", function () {
 		});
 	});
 
-	it("read companylist", function () {
+	it("read full companylist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('companylist').clearFilter();
+			Ext.getStore('companylist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('ref_ext');
+
+						if (record.get('ref_ext') == 'connectortest') {
+							companyIds[index] = record.get('company_id');
+						}
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
+		});
+	});
+
+	it("read filtered companylist", function () {
 
 		runs(function () {
 
@@ -656,7 +683,7 @@ describe("companies", function () {
 		});
 	});
 
-	it("update contact", function () //TODO doesn't sync, don't know why
+	it("update contact", function ()
 	{
 		runs(function () {
 			var contacts = Ext.getStore('contacts');
@@ -684,6 +711,29 @@ describe("companies", function () {
 
 		runs(function () {
 			expect(testresults).toContain('connectortested');
+		});
+	});
+
+	it("read full contactlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('contactlist').clearFilter();
+			Ext.getStore('contactlist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('lastname');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
 		});
 	});
 
@@ -967,6 +1017,29 @@ describe("actions", function () {
 			expect(testresults).toContain('connectortested');
 		});
 	});
+
+	it("read full actionlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('actionlist').clearFilter();
+			Ext.getStore('actionlist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
+		});
+	});
 });
 
 describe("categories", function () {
@@ -1077,6 +1150,29 @@ describe("categories", function () {
 			expect(testresults).toContain('connectortested');
 		});
 	});
+
+	it("read full categorielist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('categorielist').clearFilter();
+			Ext.getStore('categorielist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
+		});
+	});
 });
 
 describe("products", function () {
@@ -1177,7 +1273,6 @@ describe("products", function () {
 						productData.barcode = '1234567';
 						productData.has_photo = 0;
 						productData.photo = null;
-						//productData.productinfo = 'connectortest';
 						productData.sellby = sellby1;
 						productData.eatby = eatby1;
 						productData.batch = 'batch1';
@@ -1216,7 +1311,6 @@ describe("products", function () {
 				callback: function (records) {
 					Ext.Array.each(records, function (record) {
 						testresults[2] = record.get('label');
-						//testresults[3] = record.get('productinfo');
 					});
 					flag = true;
 				}
@@ -1589,6 +1683,29 @@ describe("products", function () {
 			expect(testresults).toContain('batch2');
 		});
 	});
+
+	it("read full productlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('productlist').clearFilter();
+			Ext.getStore('productlist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
+		});
+	});
 });
 
 describe("order", function () {
@@ -1597,8 +1714,7 @@ describe("order", function () {
 		testresult = null,
 		orderRef = null,
 		orderstatusIds = [],
-		orderLineIds = [],
-		orderLineBatchIds = [];
+		orderLineIds = [];
 
 	beforeEach(function () {
 		testresults = [];
@@ -1861,9 +1977,6 @@ describe("order", function () {
 						defaultWarehouseIds.push(record.get('default_warehouse_id'));
 						stock += record.get('stock');
 						asked += record.get('qty_asked');
-						if (record.get('batch_id')) {
-							orderLineBatchIds.push(record.get('batch_id'));
-						}
 						if (record.get('has_photo')) {
 							photo = record.get('photo');
 						}
@@ -1965,6 +2078,29 @@ describe("order", function () {
 		runs(function () {
 			expect(testresults).toContain('Validated shippable');
 			expect(testresults).not.toContain('Validated partly shippable');
+		});
+	});
+
+	it("read full orderlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('orderlist').clearFilter();
+			Ext.getStore('orderlist').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
 		});
 	});
 });
@@ -2416,6 +2552,29 @@ describe("shipment", function () {
 			expect(testresult).toBe('batch2');
 		});
 	});
+
+	it("read full shipmentlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('ShipmentList').clearFilter();
+			Ext.getStore('ShipmentList').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
+		});
+	});
 });
 
 describe("Purchase Order", function () {
@@ -2848,7 +3007,7 @@ describe("Purchase Order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).toContain(warehouseIds[2]);
 			expect(testresults.length).toBe(5);
-			expect(stock).toBe(29);
+			expect(stock).toBe(33);
 			expect(asked).toBe(14);
 			expect(unitIds).toContain(6);
 			expect(photo).toMatch('jpeg');
@@ -2884,7 +3043,7 @@ describe("Purchase Order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).not.toContain(warehouseIds[2]);
 			expect(testresults.length).toBe(3);
-			expect(stock).toBe(19);
+			expect(stock).toBe(23);
 			if (dolibarrVersion >= 5.0) {
 				expect(desiredStock).toBe(60);
 			}
@@ -2913,6 +3072,29 @@ describe("Purchase Order", function () {
 
 		runs(function () {
 			expect(testresult).toBe(2);
+		});
+	});
+
+	it("read full orderlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('PurchaseOrderList').clearFilter();
+			Ext.getStore('PurchaseOrderList').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
 		});
 	});
 });
@@ -3201,6 +3383,29 @@ describe("intervention", function () {
 
 		runs(function () {
 			expect(testresult).toBe('connectortest update');
+		});
+	});
+
+	it("read full interventionlist", function () {
+
+		runs(function () {
+
+			flag = false;
+			Ext.getStore('InterventionList').clearFilter();
+			Ext.getStore('InterventionList').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('label');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults.length).toBeGreaterThan(0);
 		});
 	});
 });

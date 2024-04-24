@@ -9,3 +9,4 @@ bootstrap.js
 bootstrap.css
 *.scssc
 .vscode/settings.json
+.sencha/*
