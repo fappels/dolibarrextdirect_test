@@ -80,7 +80,17 @@ Ext.define('ConnectorTest.model.Order', {
             },
             {
                 dateFormat: 'timestamp',
-                name: 'create_date',
+                name: 'create_date', // for supplier order
+                type: 'date'
+            },
+            {
+                dateFormat: 'timestamp',
+                name: 'date_creation',
+                type: 'date'
+            },
+            {
+                dateFormat: 'timestamp',
+                name: 'date_modification', // tms
                 type: 'date'
             },
             {
@@ -138,15 +148,15 @@ Ext.define('ConnectorTest.model.Order', {
                 name: 'size_units'
             },
             {
-                name: 'trueDepth',
+                name: 'length',
                 type: 'float'
             },
             {
-                name: 'trueWidth',
+                name: 'width',
                 type: 'float'
             },
             {
-                name: 'trueHeight',
+                name: 'height',
                 type: 'float'
             },
             {
@@ -221,23 +231,20 @@ Ext.define('ConnectorTest.model.Order', {
             },
             {
                 name: 'has_signature',
-                type: 'int'
+                type: 'int',
+                allowNull: true
             },
             {
-                name: 'signature'
-			},
-			{
-				name: 'shipmentstatus_id',
-				type: 'int'
-			},
-			{
-				dateFormat: 'timestamp',
-				name: 'shipment_date',
-				type: 'date'
-			},
-			{
-				name: 'shipmentstatus'
-			},
+                name: 'signature',
+                defaultValue: null,
+                allowNull: true
+            },
+            {
+                name: 'shippable_qty'
+            },
+            {
+                name: 'origin_ref'
+            },
             {
                 name: 'app_id'
             }

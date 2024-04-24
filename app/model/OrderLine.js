@@ -235,6 +235,49 @@ Ext.define('ConnectorTest.model.OrderLine', {
                 type: 'int'
             },
             {
+                name: 'unit_label' // only used local
+            },
+            {
+                name: 'is_sub_product',
+                type: 'boolean',
+                defaultValue: false
+            },
+            {
+                name: 'sub_product_parent_id',
+                type: 'int'
+            },
+            {
+                defaultValue: 0,
+                name: 'qty_package',
+                type: 'float',
+                critical: true
+            },
+            {
+                name: 'cost_price',
+                type: 'float',
+                allowNull: true,
+                critical: true
+            },
+            {
+                name: 'shipment_package_id',
+                type: 'int'
+            },
+            {
+                name: 'calculated_weight'
+            },
+            {
+                name: 'calculated_volume'
+            },
+            {
+                name: 'product_weight'
+            },
+            {
+                name: 'product_surface'
+            },
+            {
+                name: 'product_volume'
+            },
+            {
                 name: 'app_id'
             }
         ]

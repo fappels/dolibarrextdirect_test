@@ -23,6 +23,10 @@ Ext.define('ConnectorTest.model.OptionalModel', {
             },
             {
                 name: 'default'
+            },
+            {
+                name: 'readonly',
+                type: 'int'
             }
         ]
     }

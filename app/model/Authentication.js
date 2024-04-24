@@ -21,70 +21,130 @@ Ext.define('ConnectorTest.model.Authentication', {
     ],
 
     config: {
-        fields: [
-            {
-                name: 'id',
-                type: 'int'
-            },
-            {
-                name: 'requestid'
-            },
-            {
-                name: 'app_id'
-            },
-            {
-                name: 'app_name'
-            },
-            {
-                name: 'dev_platform'
-            },
-            {
-                name: 'dev_type'
-            },
-            {
-                name: 'fk_user',
-                type: 'int'
-            },
-            {
-                name: 'username'
-            },
-            {
-                name: 'ack_id'
-            },
-            {
-                dateFormat: 'timestamp',
-                name: 'datec',
-                type: 'date'
-            },
-            {
-                dateFormat: 'timestamp',
-                name: 'date_last_connect',
-                type: 'date'
-            },
-            {
-                name: 'connector_id'
-            },
-            {
-                name: 'connector_name'
-            },
-            {
-                name: 'connector_version'
-            },
-            {
-                name: 'connector_description'
-            },
-            {
-                name: 'dolibarr_version'
-            },
-            {
-                name: 'home_country_id'
-            },
-            {
-                name: 'home_state_id'
-            },
-            {
-                name: 'home_name'
-            }
+        fields: [{
+            name: 'id',
+            type: 'int'
+        },
+        {
+            name: 'requestid',
+            defaultValue: '',
+            critical: true
+        },
+        {
+            name: 'app_id',
+            defaultValue: '',
+            critical: true
+        },
+        {
+            name: 'app_name'
+        },
+        {
+            name: 'dev_platform'
+        },
+        {
+            name: 'dev_type'
+        },
+        {
+            name: 'fk_user',
+            type: 'int'
+        },
+        {
+            name: 'username'
+        },
+        {
+            name: 'ack_id',
+            critical: true
+        },
+        {
+            dateFormat: 'timestamp',
+            name: 'datec',
+            type: 'date'
+        },
+        {
+            dateFormat: 'timestamp',
+            name: 'date_last_connect',
+            type: 'date'
+        },
+        {
+            name: 'connector_id'
+        },
+        {
+            name: 'connector_name'
+        },
+        {
+            name: 'connector_version'
+        },
+        {
+            name: 'connector_description'
+        },
+        {
+            name: 'connector_compatibility'
+        },
+        {
+            name: 'dolibarr_version'
+        },
+        {
+            name: 'home_country_id'
+        },
+        {
+            name: 'home_state_id'
+        },
+        {
+            name: 'home_localtax1_assuj',
+            type: 'int'
+        },
+        {
+            name: 'home_localtax2_assuj',
+            type: 'int'
+        },
+        {
+            name: 'home_name'
+        },
+        {
+            name: 'timezone_offset',
+            type: 'int'
+        },
+        {
+            name: 'timezone'
+        },
+        {
+            name: 'local_timezone_offset',
+            type: 'int'
+        },
+        {
+            name: 'local_dst',
+            type: 'boolean'
+        },
+        {
+            name: 'local_timezone'
+        },
+        {
+            name: 'webview_name'
+        },
+        {
+            name: 'webview_version'
+        },
+        {
+            name: 'identify',
+            type: 'int'
+        },
+        {
+            name: 'site_cookie_samesite'
+        },
+        {
+            name: 'site_cookie_secure'
+        },
+        {
+            name: 'session_cookie_samesite'
+        },
+        {
+            name: 'session_cookie_secure'
+        },
+        {
+            name: 'multicurrency_enabled',
+            defaultValue: 0,
+            type: 'int'
+        }
         ]
     }
 });

@@ -103,6 +103,10 @@ Ext.define('ConnectorTest.model.ProductList', {
             {
                 name: 'qty_ordered',
                 type: 'float'
+            },
+            {
+                name: 'reduction_percent_supplier',
+                type: 'float'
             }
         ]
     }

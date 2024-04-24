@@ -91,9 +91,6 @@ Ext.define('ConnectorTest.model.Contact', {
                 name: 'phone_mobile'
             },
             {
-                name: 'jabberid'
-            },
-            {
                 name: 'priv',
                 type: 'int'
             },

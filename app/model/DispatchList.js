@@ -54,6 +54,27 @@ Ext.define('ConnectorTest.model.DispatchList', {
             },
             {
                 name: 'mode'
+            },
+            {
+                name: 'total_inc',
+                type: 'float'
+            },
+            {
+                name: 'user_id',
+                type: 'int'
+            },
+            {
+                name: 'user_name'
+            },
+            {
+                dateFormat: 'timestamp',
+                name: 'deliver_date',
+                type: 'date'
+            },
+            {
+                dateFormat: 'timestamp',
+                name: 'order_date',
+                type: 'date'
             }
         ]
     }

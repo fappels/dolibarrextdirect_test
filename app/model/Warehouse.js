@@ -21,20 +21,27 @@ Ext.define('ConnectorTest.model.Warehouse', {
     ],
 
     config: {
-        fields: [
-            {
-                name: 'id'
-            },
-            {
-                name: 'label'
-            },
-            {
-                name: 'description'
-            },
-            {
-                name: 'stock',
-                type: 'float'
-            }
+        fields: [{
+            name: 'id'
+        },
+        {
+            name: 'label'
+        },
+        {
+            name: 'description'
+        },
+        {
+            name: 'stock',
+            type: 'float'
+        },
+        {
+            name: 'is_virtual_stock',
+            type: 'boolean',
+            defaultValue: false
+        },
+        {
+            name: 'parent_id'
+        }
         ]
     }
 });

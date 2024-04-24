@@ -12,23 +12,29 @@ Ext.define('ConnectorTest.model.Optional', {
 
 	config: {
 		fields: [{
-				name: 'id',
-			}, {
-				name: 'object_id',
-				type: 'int'
-			},
-			{
-				name: 'object_element'
-			},
-			{
-				name: 'name'
-			},
-			{
-				name: 'value'
-			},
-			{
-				name: 'raw_value'
-			}
+			name: 'id',
+			type: 'int'
+		}, {
+			name: 'object_id',
+			type: 'int',
+			critical: true
+		},
+		{
+			name: 'object_element',
+			critical: true
+		},
+		{
+			name: 'name',
+			critical: true
+		},
+		{
+			name: 'value',
+			type: 'string',
+			defautValue: ''
+		},
+		{
+			name: 'raw_value'
+		}
 		]
 	}
 });

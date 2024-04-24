@@ -149,6 +149,18 @@ Ext.define('ConnectorTest.model.Company', {
                 type: 'int'
             },
             {
+                allowNull: false,
+                defaultValue: 0,
+                name: 'localtax1_assuj',
+                type: 'int'
+            },
+            {
+                allowNull: false,
+                defaultValue: 0,
+                name: 'localtax2_assuj',
+                type: 'int'
+            },
+            {
                 name: 'tva_intra'
             },
             {

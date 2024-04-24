@@ -43,10 +43,27 @@ Ext.define('ConnectorTest.model.ShipmentList', {
                 name: 'shipmentstatus'
             },
             {
+                name: 'customer_id',
+                type: 'int'
+            },
+            {
                 name: 'status'
             },
             {
                 name: 'mode'
+            },
+            {
+                dateFormat: 'timestamp',
+                name: 'deliver_date',
+                type: 'date'
+            },
+            {
+                name: 'qty_toship',
+                type: 'float'
+            },
+            {
+                name: 'qty_packaged',
+                type: 'float'
             }
         ]
     }

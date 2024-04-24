@@ -43,6 +43,7 @@ Ext.define('ConnectorTest.model.ContactList', {
                 name: 'town'
             },
             {
+                defaultValue: 1,
                 name: 'enabled',
                 type: 'int'
             }

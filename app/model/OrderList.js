@@ -74,6 +74,14 @@ Ext.define('ConnectorTest.model.OrderList', {
                 dateFormat: 'timestamp',
                 name: 'deliver_date',
                 type: 'date'
+            },
+            {
+                dateFormat: 'timestamp',
+                name: 'order_date',
+                type: 'date'
+            },
+            {
+                name: 'shippable_qty'
             }
         ]
     }
