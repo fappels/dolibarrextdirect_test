@@ -54,7 +54,7 @@ Ext.define('ConnectorTest.controller.MainView',
 		Ext.ns("Ext.app.REMOTING_API");
 		Ext.app.REMOTING_API = {
 			"id":"dolibarr_connector",
-			"url":"http://localhost/dolibarr/htdocs/extdirect/router.php",
+			"url":"../router.php",
 			"type":"remoting",
 			"actions":{
 				"ExtDirectProduct":[
