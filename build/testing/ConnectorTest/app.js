@@ -55550,7 +55550,6 @@ Ext.application({extend:ConnectorTest.Application, controllers:['MainView'], mod
 'Town', 'User', 'Warehouse', 'ContactLinkTypeList', 'IncotermsCode', 'ShipmentMode', 'PriceBaseType', 'ShipmentList', 'Constant', 'DataConstant', 'OptionalModel', 'Optional', 'Intervention', 'InterventionLine', 'InterventionList', 'Shipment'], stores:['ActionList', 'Actions', 'Activities', 'Authentication', 'Availability', 'BarcodeTypes', 'CategorieList', 'Categories', 'CommercialStatus', 'Companies', 'CompanyList', 'ContactLinkTypeList', 'ContactList', 'Contacts', 'Countries', 'Lang', 'Locations', 
 'Order', 'OrderLine', 'OrderList', 'OrderStatus', 'PaymentConditions', 'PaymentTypes', 'PriceIndex', 'Product', 'ProductBatchList', 'ProductList', 'ProductTypeList', 'ProspectLevel', 'PurchaseOrder', 'PurchaseOrderLine', 'PurchaseOrderList', 'PurchaseOrderStatus', 'Shipment', 'ShipmentLine', 'States', 'Towns', 'Users', 'Warehouse', 'IncotermsCodes', 'ShipmentModes', 'PriceBaseTypes', 'ShipmentList', 'ShipmentStatus', 'ShipmentContactTypeList', 'OrderConstants', 'ShipmentConstants', 'CompanyConstants', 
 'SupplierReputations', 'PurchaseConstants', 'ProductOptionalModel', 'ProductOptionals', 'Intervention', 'InterventionLines', 'InterventionList', 'InterventionConstants', 'InterventionStatus'], views:['MainView'], name:'ConnectorTest', mainView:'ConnectorTest.view.MainView', launch:function() {
-  Ext.Viewport.hide();
 }});
 "use strict";
 

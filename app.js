@@ -137,7 +137,7 @@ Ext.application({
 
     launch: function() {
         // hide the main view, jasmine will show testresults
-        Ext.Viewport.hide();
+        //Ext.Viewport.hide();
         //Ext.create('ConnectorTest.view.MainView', {fullscreen: true});
     }
 });
