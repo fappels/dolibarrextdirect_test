@@ -135,7 +135,7 @@ Ext.application({
     // The name of the initial view to create.
     mainView: 'ConnectorTest.view.MainView',
 
-    onLaunch: function() {
+    launch: function() {
         // hide the main view, jasmine will show testresults
         Ext.Viewport.hide();
         //Ext.create('ConnectorTest.view.MainView', {fullscreen: true});
