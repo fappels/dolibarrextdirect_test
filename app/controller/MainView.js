@@ -591,13 +591,10 @@ Ext.define('ConnectorTest.controller.MainView',
     
     
     /**
-     * launch:
-     * 	Add views
-	 *	destroy apploading indicator 
-	 *	find active setting, load setting and connect to provider or show settings view to create first settings
-	 *	add ExtBluetooth exception and connected listeners
+     * onLaunch:
+     * 	Start jasmine testing
      */
-    launch: function() {
+    onLaunch: function() {
     	this.debug?console.log('launch main controller'):null;
     	
     	this.jasmineEnv.execute(); 
