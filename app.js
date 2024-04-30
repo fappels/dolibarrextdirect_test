@@ -16,7 +16,7 @@ Ext.application({
     ],
 
     controllers: [
-	    'Main'
+	    'MainView'
 	],
 
     models: [

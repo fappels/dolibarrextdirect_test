@@ -55304,7 +55304,7 @@ Ext.define('ConnectorTest.Application', {extend:Ext.app.Application, name:'Conne
     }
   });
 }});
-Ext.define('ConnectorTest.controller.Main', {extend:Ext.app.Controller, debug:true, jasmineEnv:null, config:{refs:{}, control:{}}, init:function() {
+Ext.define('ConnectorTest.controller.MainView', {extend:Ext.app.Controller, debug:true, jasmineEnv:null, config:{refs:{}, control:{}}, init:function() {
   this.jasmineEnv = jasmine.getEnv();
   this.jasmineEnv.updateInterval = 1000;
   var htmlReporter = new jasmine.HtmlReporter();
@@ -55546,10 +55546,10 @@ Ext.define('ConnectorTest.store.Towns', {extend:Ext.data.Store, config:{model:'C
 Ext.define('ConnectorTest.store.Users', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.User', storeId:'users'}});
 Ext.define('ConnectorTest.store.Warehouse', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Warehouse', storeId:'warehouse'}});
 Ext.define('ConnectorTest.view.MainView', {extend:Ext.Panel, alias:'widget.mainview', config:{itemId:'mainView', padding:10, items:[{xtype:'button', itemId:'runButton', text:'Run Action'}, {xtype:'panel', itemId:'detailPanel', padding:10, tpl:['', '\x3cdiv\x3eID: {id}\x3c/div\x3e', '\x3cdiv\x3eText: {text}\x3c/div\x3e']}]}});
-Ext.application({extend:ConnectorTest.Application, name:'ConnectorTest', controllers:['Main'], models:['Authentication', 'Action', 'ActionList', 'Activity', 'Availability', 'BarcodeType', 'Categorie', 'CategorieList', 'CommercialStatus', 'Company', 'CompanyList', 'Contact', 'ContactList', 'Country', 'Lang', 'Location', 'Order', 'OrderLine', 'OrderList', 'DispatchList', 'OrderStatus', 'PaymentCondition', 'PaymentType', 'PriceIndex', 'Product', 'ProductList', 'ProductBatchList', 'ProductType', 'ProspectLevel', 
-'State', 'Town', 'User', 'Warehouse', 'ContactLinkTypeList', 'IncotermsCode', 'ShipmentMode', 'PriceBaseType', 'ShipmentList', 'Constant', 'DataConstant', 'OptionalModel', 'Optional', 'Intervention', 'InterventionLine', 'InterventionList', 'Shipment'], stores:['ActionList', 'Actions', 'Activities', 'Authentication', 'Availability', 'BarcodeTypes', 'CategorieList', 'Categories', 'CommercialStatus', 'Companies', 'CompanyList', 'ContactLinkTypeList', 'ContactList', 'Contacts', 'Countries', 'Lang', 'Locations', 
+Ext.application({extend:ConnectorTest.Application, controllers:['MainView'], models:['Authentication', 'Action', 'ActionList', 'Activity', 'Availability', 'BarcodeType', 'Categorie', 'CategorieList', 'CommercialStatus', 'Company', 'CompanyList', 'Contact', 'ContactList', 'Country', 'Lang', 'Location', 'Order', 'OrderLine', 'OrderList', 'DispatchList', 'OrderStatus', 'PaymentCondition', 'PaymentType', 'PriceIndex', 'Product', 'ProductList', 'ProductBatchList', 'ProductType', 'ProspectLevel', 'State', 
+'Town', 'User', 'Warehouse', 'ContactLinkTypeList', 'IncotermsCode', 'ShipmentMode', 'PriceBaseType', 'ShipmentList', 'Constant', 'DataConstant', 'OptionalModel', 'Optional', 'Intervention', 'InterventionLine', 'InterventionList', 'Shipment'], stores:['ActionList', 'Actions', 'Activities', 'Authentication', 'Availability', 'BarcodeTypes', 'CategorieList', 'Categories', 'CommercialStatus', 'Companies', 'CompanyList', 'ContactLinkTypeList', 'ContactList', 'Contacts', 'Countries', 'Lang', 'Locations', 
 'Order', 'OrderLine', 'OrderList', 'OrderStatus', 'PaymentConditions', 'PaymentTypes', 'PriceIndex', 'Product', 'ProductBatchList', 'ProductList', 'ProductTypeList', 'ProspectLevel', 'PurchaseOrder', 'PurchaseOrderLine', 'PurchaseOrderList', 'PurchaseOrderStatus', 'Shipment', 'ShipmentLine', 'States', 'Towns', 'Users', 'Warehouse', 'IncotermsCodes', 'ShipmentModes', 'PriceBaseTypes', 'ShipmentList', 'ShipmentStatus', 'ShipmentContactTypeList', 'OrderConstants', 'ShipmentConstants', 'CompanyConstants', 
-'SupplierReputations', 'PurchaseConstants', 'ProductOptionalModel', 'ProductOptionals', 'Intervention', 'InterventionLines', 'InterventionList', 'InterventionConstants', 'InterventionStatus'], views:['MainView'], mainView:'ConnectorTest.view.MainView', launch:function() {
+'SupplierReputations', 'PurchaseConstants', 'ProductOptionalModel', 'ProductOptionals', 'Intervention', 'InterventionLines', 'InterventionList', 'InterventionConstants', 'InterventionStatus'], views:['MainView'], name:'ConnectorTest', mainView:'ConnectorTest.view.MainView', launch:function() {
   Ext.Viewport.hide();
 }});
 "use strict";

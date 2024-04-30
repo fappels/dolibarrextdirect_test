@@ -1,5 +1,5 @@
 /*
- * File: app/controller/Main.js
+ * File: app/controller/MainView.js
  *	
  *	Main Controller for ControllerTest
  *
@@ -7,7 +7,7 @@
  * 
  */
 
-Ext.define('ConnectorTest.controller.Main', 
+Ext.define('ConnectorTest.controller.MainView', 
 /**
  * @author Francis
  *
