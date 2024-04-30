@@ -48,7 +48,7 @@ describe("Authentication", function () {
 				dev_type: Ext.os.deviceType
 			});
 			customerId = 1;
-			Ext.Direct.getProvider("dolibarr_connector").setUrl("../router.php");
+			Ext.Direct.getProvider("dolibarr_connector").setConfig('url', "../router.php");
 			Ext.getStore('authentication').setData([authentication]);
 			Ext.getStore('authentication').sync();
 			Ext.getStore('authentication').clearFilter();
