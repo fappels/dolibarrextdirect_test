@@ -1,6 +1,5 @@
 /*
- * File: app/model/Optional.js
- *
+ * Extrafield
  */
 
 Ext.define('ConnectorTest.model.Optional', {
@@ -10,8 +9,8 @@ Ext.define('ConnectorTest.model.Optional', {
 		'Ext.data.Field'
 	],
 
-	config: {
-		fields: [{
+
+	fields: [{
 			name: 'id',
 			type: 'int'
 		}, {
@@ -35,6 +34,5 @@ Ext.define('ConnectorTest.model.Optional', {
 		{
 			name: 'raw_value'
 		}
-		]
-	}
+	]
 });
