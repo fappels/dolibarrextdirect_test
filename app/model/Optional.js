@@ -11,8 +11,7 @@ Ext.define('ConnectorTest.model.Optional', {
 
 
 	fields: [{
-			name: 'id',
-			type: 'int'
+			name: 'id'
 		}, {
 			name: 'object_id',
 			type: 'int',
