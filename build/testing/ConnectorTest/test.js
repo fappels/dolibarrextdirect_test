@@ -3193,7 +3193,7 @@ describe("intervention", function () {
 				customer_id: customerId
 			};
 			intervention = Ext.create('ConnectorTest.model.Intervention');
-			intervention.set('interventionData');
+			intervention.set(interventionData);
 
 			interventionStore = Ext.getStore('Intervention');
 			interventionStore.add(intervention);
@@ -3367,7 +3367,7 @@ describe("intervention", function () {
 			Ext.getStore('InterventionLines').load({
 				callback: function (records) {
 					Ext.Array.each(records, function (record) {
-						testresults.push(record.get('duration'));
+						testresults.push(parseFloat(record.get('duration')));
 					});
 					flag = true;
 				}
@@ -3538,10 +3538,17 @@ describe("delete Purchase orders", function () {
 			Ext.getStore('PurchaseOrderLine').load({
 				callback: function (records) {
 					Ext.getStore('PurchaseOrderLine').remove(records);
-					Ext.getStore('PurchaseOrderLine').sync();
-					Ext.getStore('PurchaseOrderLine').load({
-						callback: function (records) {
+					Ext.getStore('PurchaseOrderLine').sync({
+						success: function(records) {
 							testresult = records.length;
+							flag = true;
+						},
+						failure: function(dataBatch) {
+							if (Array.isArray(dataBatch.getOperations()) && dataBatch.getOperations().length > 0) {
+								testresult = dataBatch.getOperations()[0].error;
+							} else {
+								testresult =  'Not deleted on server';
+							}
 							flag = true;
 						}
 					});
