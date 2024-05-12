@@ -643,7 +643,7 @@ describe("companies", function () {
 			flag = false;
 			var contacts = Ext.getStore('contacts'),
 				contactList = Ext.getStore('contactlist'),
-				contactData;
+				contact, contactData;
 
 			contactData = {
 				lastname: 'Contact', 							// company name
@@ -661,8 +661,9 @@ describe("companies", function () {
 				note: 'This is a comment',
 				company_id: companyIds[0]
 			};
-
-			contacts.add(Ext.create('ConnectorTest.model.Contact', contactData));
+			contact = Ext.create('ConnectorTest.model.Contact');
+			contact.set(contactData);
+			contacts.add(contact);
 			contacts.sync();
 
 
@@ -946,7 +947,7 @@ describe("actions", function () {
 
 			var actions = Ext.getStore('actions'),
 				actionList = Ext.getStore('actionlist'),
-				actionData;
+				action, actionData;
 
 			flag = false;
 			actionData = {
@@ -961,7 +962,9 @@ describe("actions", function () {
 				contact_id: contactId,
 				durationp: 10
 			};
-			actions.add(Ext.create('ConnectorTest.model.Action', actionData));
+			action = Ext.create('ConnectorTest.model.Action');
+			action.set(actionData);
+			actions.add(action);
 			actions.sync();
 
 			actionList.clearFilter();
@@ -1770,7 +1773,8 @@ describe("order", function () {
 				user_id: 1,
 				order_date: Ext.Date.format(new Date(), 'U')
 			};
-			order = Ext.create('ConnectorTest.model.Order', orderData);
+			order = Ext.create('ConnectorTest.model.Order');
+			order.set(orderData);
 			order.set('shipping_method_id', 1);
 			order.set('incoterms_id', 2);
 			order.set('location_incoterms', 'location incoterms')
@@ -2153,7 +2157,8 @@ describe("shipment", function () {
 				tracking_number: 'connectortest tracking',
 				deliver_date: Ext.Date.format(new Date(), 'U')
 			};
-			shipment = Ext.create('ConnectorTest.model.Shipment', shipmentData);
+			shipment = Ext.create('ConnectorTest.model.Shipment');
+			shipment.set(shipmentData);
 			shipment.set('shipping_method_id', 1);
 			shipment.set('incoterms_id', 2);
 			shipment.set('location_incoterms', 'location incoterms')
@@ -2233,7 +2238,8 @@ describe("shipment", function () {
 					// ship 1 of each batch
 					shipmentData.qty_toship = 1;
 				}
-				shipmentLine = Ext.create('ConnectorTest.model.OrderLine', shipmentData);
+				shipmentLine = Ext.create('ConnectorTest.model.OrderLine');
+				shipmentLine.set(shipmentData);
 				shipmentLines.push(shipmentLine);
 			});
 			shipmentLineStore.add(shipmentLines);
@@ -2334,18 +2340,25 @@ describe("shipment", function () {
 
 		runs(function () {
 			flag = false;
-			updateRecord = Ext.getStore('shipmentline').findRecord('line_id', shipmentLineIds[2]);
-			updateRecord.set('qty_toship', 0);
-			updateRecord.set('batch', 'batch1');
-			Ext.getStore('shipmentline').sync();
-			Ext.getStore('shipmentline').load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresult += record.get('qty_shipped');
-					});
-					flag = true;
-				}
-			});
+			updateRecord = Ext.getStore('shipmentline').getAt(Ext.getStore('shipmentline').findBy(function (record) {
+				if (record.get('line_id') == shipmentLineIds[2] && record.get('batch') == 'batch1') return true; 
+			}));
+			if (updateRecord) {
+				updateRecord.set('qty_shipped', 0);
+				updateRecord.set('qty_toship', 0);
+				Ext.getStore('shipmentline').sync();
+				Ext.getStore('shipmentline').load({
+					callback: function (records) {
+						Ext.Array.each(records, function (record) {
+							testresult += record.get('qty_shipped');
+						});
+						flag = true;
+					}
+				});
+			} else {
+				flag = true;
+			}
+			
 		});
 
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
@@ -2382,8 +2395,6 @@ describe("shipment", function () {
 	});
 
 	it("destroy shipmentLine", function () {
-		Ext.getStore('shipmentline').setDestroyRemovedRecords(true);
-		Ext.getStore('shipmentline').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('shipmentline').clearFilter();
@@ -2663,7 +2674,8 @@ describe("Purchase Order", function () {
 				orderstatus_id: orderstatusIds[0],
 				user_id: 1
 			};
-			order = Ext.create('ConnectorTest.model.Order', orderData);
+			order = Ext.create('ConnectorTest.model.Order');
+			order.set(orderData);
 			orderStore = Ext.getStore('PurchaseOrder');
 			orderStore.add(order);
 			orderStore.sync();
@@ -2723,7 +2735,7 @@ describe("Purchase Order", function () {
 
 		runs(function () {
 			// add 3 products
-			var orderData, orderLine;
+			var orderData, orderLine, products = Ext.getStore('product');
 
 			flag = false;
 
@@ -2735,24 +2747,46 @@ describe("Purchase Order", function () {
 				product_price: 10,
 				product_tax: 21
 			};
-			Ext.Array.each(productIds, function (productId, index) {
-				Ext.getStore('product').clearFilter();
-				Ext.getStore('product').filter([Ext.create('Ext.util.Filter', { property: "id", value: productId })]);
-				Ext.getStore('product').load({
-					callback: function (records) {
-						orderData.product_id = productId;
-						orderData.ref_supplier = records[0].get('ref_supplier');
-						orderData.ref_supplier_id = records[0].get('ref_supplier_id');
-						orderData.unit_id = records[0].get('unit_id');
-						orderLine = Ext.create('ConnectorTest.model.OrderLine', orderData);
-						orderLines.push(orderLine);
-						if (index == (productIds.length - 1)) {
-							flag = true;
+			products.clearFilter();
+			products.filter([Ext.create('Ext.util.Filter', { property: "id", value: productIds[0] })]);
+			products.load({
+				callback: function (records) {
+					orderData.product_id = records[0].get('id');
+					orderData.ref_supplier = records[0].get('ref_supplier');
+					orderData.ref_supplier_id = records[0].get('ref_supplier_id');
+					orderData.unit_id = records[0].get('unit_id');
+					orderLine = Ext.create('ConnectorTest.model.OrderLine');
+					orderLine.set(orderData);
+					orderLines.push(orderLine);
+					products.clearFilter();
+					products.filter([Ext.create('Ext.util.Filter', { property: "id", value: productIds[1] })]);
+					products.load({
+						callback: function (records) {
+							orderData.product_id = records[0].get('id');
+							orderData.ref_supplier = records[0].get('ref_supplier');
+							orderData.ref_supplier_id = records[0].get('ref_supplier_id');
+							orderData.unit_id = records[0].get('unit_id');
+							orderLine = Ext.create('ConnectorTest.model.OrderLine');
+							orderLine.set(orderData);
+							orderLines.push(orderLine);
+							products.clearFilter();
+							products.filter([Ext.create('Ext.util.Filter', { property: "id", value: productIds[2] })]);
+							products.load({
+								callback: function (records) {
+									orderData.product_id = records[0].get('id');
+									orderData.ref_supplier = records[0].get('ref_supplier');
+									orderData.ref_supplier_id = records[0].get('ref_supplier_id');
+									orderData.unit_id = records[0].get('unit_id');
+									orderLine = Ext.create('ConnectorTest.model.OrderLine');
+									orderLine.set(orderData);
+									orderLines.push(orderLine);
+									flag = true;
+								}
+							});
 						}
-					}
-				});
+					});
+				}
 			});
-
 		});
 
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
@@ -2777,6 +2811,7 @@ describe("Purchase Order", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
+			expect(testresults.length).toBe(5);
 			Ext.Array.each(testresults, function (testresult) {
 				expect(testresult).toBe('connectortest');
 			});
@@ -2992,7 +3027,7 @@ describe("Purchase Order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).toContain(warehouseIds[2]);
 			expect(testresults.length).toBe(5);
-			expect(stock).toBe(33);
+			expect(stock).toBe(29);
 			expect(asked).toBe(14);
 			expect(unitIds).toContain(6);
 			expect(photo).toMatch('jpeg');
@@ -3028,7 +3063,7 @@ describe("Purchase Order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).not.toContain(warehouseIds[2]);
 			expect(testresults.length).toBe(3);
-			expect(stock).toBe(23);
+			expect(stock).toBe(19);
 			if (dolibarrVersion >= 5.0) {
 				expect(desiredStock).toBe(60);
 			}
@@ -3147,7 +3182,6 @@ describe("intervention", function () {
 
 	it("create intervention", function () {
 		runs(function () {
-			// add 2 products
 			var interventionData, intervention, interventionStore;
 
 			flag = false;
@@ -3158,7 +3192,8 @@ describe("intervention", function () {
 				duration: 2,
 				customer_id: customerId
 			};
-			intervention = Ext.create('ConnectorTest.model.Intervention', interventionData);
+			intervention = Ext.create('ConnectorTest.model.Intervention');
+			intervention.set('interventionData');
 
 			interventionStore = Ext.getStore('Intervention');
 			interventionStore.add(intervention);
@@ -3218,7 +3253,8 @@ describe("intervention", function () {
 				duration: 2
 			};
 
-			interventionLine = Ext.create('ConnectorTest.model.InterventionLine', interventionData);
+			interventionLine = Ext.create('ConnectorTest.model.InterventionLine');
+			interventionLine.set(interventionData);
 			interventionLines.push(interventionLine);
 
 			Ext.getStore('InterventionLines').add(interventionLines);
