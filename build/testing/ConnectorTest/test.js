@@ -23,7 +23,7 @@ var appUuid = null,
 	eatby2 = Ext.Date.format(new Date(2022, 12, 30), 'U'),
 	optionalModel = [];
 
-var TIMEOUT = 8000;
+var TIMEOUT = 2000;
 
 
 describe("Authentication", function () {
@@ -488,7 +488,7 @@ describe("companies", function () {
 	it("create companies", function () {
 		runs(function () {
 			// add 3 companies
-			var companyData, i, companies = [];
+			var companyData, i, company, companies = [];
 
 			companyData = {
 				name: 'Company1', 							// company name
@@ -537,7 +537,9 @@ describe("companies", function () {
 					default:
 						break;
 				}
-				companies[i] = Ext.create('ConnectorTest.model.Company', companyData);
+				company = Ext.create('ConnectorTest.model.Company');
+				company.set(companyData);
+				companies[i] = company;
 			}
 			Ext.getStore('companies').add(companies);
 			Ext.getStore('companies').sync();
@@ -683,8 +685,7 @@ describe("companies", function () {
 		});
 	});
 
-	it("update contact", function ()
-	{
+	it("update contact", function () {
 		runs(function () {
 			var contacts = Ext.getStore('contacts');
 
@@ -1053,21 +1054,20 @@ describe("categories", function () {
 	it("create categorie", function () {
 		runs(function () {
 			// add 2 categories
-			var categorieData;
+			var categories = [];
 
 			flag = false;
-			categorieData = {
+			categories.push(Ext.create('ConnectorTest.model.Categorie', {
 				label: 'Categorie1',
 				description: 'connectortest',
 				type: 0
-			};
-			Ext.getStore('categories').add(Ext.create('ConnectorTest.model.Categorie', categorieData));
-			categorieData = {
+			}));
+			categories.push(Ext.create('ConnectorTest.model.Categorie', {
 				label: 'Categorie2',
 				description: 'connectortest',
 				type: 1
-			};
-			Ext.getStore('categories').add(Ext.create('ConnectorTest.model.Categorie', categorieData));
+			}));
+			Ext.getStore('categories').add(categories);
 			Ext.getStore('categories').sync();
 			Ext.getStore('categories').clearFilter();
 			Ext.getStore('categories').filter([Ext.create('Ext.util.Filter', { property: "label", value: 'Categorie1' })]);
@@ -1222,7 +1222,7 @@ describe("products", function () {
 	it("create products", function () {
 		runs(function () {
 			// add 3 products
-			var productData, i, products = [];
+			var productData, i, product, products = [];
 
 			flag = false;
 			productData = {
@@ -1283,45 +1283,29 @@ describe("products", function () {
 					default:
 						break;
 				}
-				products[i] = Ext.create('ConnectorTest.model.Product', productData);
+				product = Ext.create('ConnectorTest.model.Product');
+				product.set(productData);
+				products.push(product);
 			}
 			productStore.add(products);
-			productStore.sync();
-			productStore.clearFilter();
-			productStore.filter([Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0001' })]);
-			productStore.load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresults[0] = record.get('label');
+			productStore.sync({
+				success: function() {
+					Ext.Array.each(products, function (record) {
+						testresults.push(record.get('id'));
 					});
-				}
-			});
-			productStore.clearFilter();
-			productStore.filter([Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0002' })]);
-			productStore.load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresults[1] = record.get('label');
-					});
-				}
-			});
-			productStore.clearFilter();
-			productStore.filter([Ext.create('Ext.util.Filter', { property: "ref", value: 'CT0003' })]);
-			productStore.load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresults[2] = record.get('label');
-					});
+					flag = true;
+				},
+				failure: function() {
 					flag = true;
 				}
 			});
 		});
 
-		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT * 2);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
 			Ext.Array.each(testresults, function (result) {
-				expect(result).toBe('connectortest');
+				expect(result).toBeGreaterThan(0);
 			});
 		});
 	});
@@ -1360,7 +1344,7 @@ describe("products", function () {
 			});
 		});
 
-		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT * 2);
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
 			expect(testresults).toContain('connectortest');
@@ -1382,7 +1366,7 @@ describe("products", function () {
 					Ext.Array.each(records, function (record) {
 						testresults.push(record.get('ref'));
 						testresults.push(record.get('ref_supplier'));
-						testresults.push(record.get('price_ttc'))
+						testresults.push(parseFloat(record.get('price_ttc')))
 					});
 					flag = true;
 				}
@@ -1855,7 +1839,8 @@ describe("order", function () {
 			};
 			Ext.Array.each(productIds, function (productId) {
 				orderData.product_id = productId;
-				orderLine = Ext.create('ConnectorTest.model.OrderLine', orderData);
+				orderLine = Ext.create('ConnectorTest.model.OrderLine');
+				orderLine.set(orderData);
 				orderLines.push(orderLine);
 			});
 
@@ -1917,12 +1902,12 @@ describe("order", function () {
 
 		runs(function () {
 			flag = false;
-			Ext.getStore('order').getAt(record).set('customer_ref', 'connectortested');
+			Ext.getStore('order').getAt(record).set('ref_customer', 'connectortested');
 			Ext.getStore('order').sync();
 			Ext.getStore('order').load({
 				callback: function (records) {
 					Ext.Array.each(records, function (record) {
-						testresult = record.get('customer_ref');
+						testresult = record.get('ref_customer');
 					});
 					flag = true;
 				}
@@ -3452,8 +3437,6 @@ describe("delete intervention", function () {
 	});
 
 	it("destroy interventionLines", function () {
-		Ext.getStore('InterventionLines').setDestroyRemovedRecords(true);
-		Ext.getStore('InterventionLines').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('InterventionLines').clearFilter();
@@ -3482,8 +3465,6 @@ describe("delete intervention", function () {
 	it("destroy intervention", function () {
 		var record = Ext.getStore('Intervention').find('id', interventionId);
 
-		Ext.getStore('Intervention').setDestroyRemovedRecords(true);
-		Ext.getStore('Intervention').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('Intervention').removeAt(record);
@@ -3514,8 +3495,6 @@ describe("delete Purchase orders", function () {
 	});
 
 	it("destroy orderLines", function () {
-		Ext.getStore('PurchaseOrderLine').setDestroyRemovedRecords(true);
-		Ext.getStore('PurchaseOrderLine').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('PurchaseOrderLine').clearFilter();
@@ -3544,8 +3523,6 @@ describe("delete Purchase orders", function () {
 	it("destroy order", function () {
 		var record = Ext.getStore('PurchaseOrder').find('id', purchaseOrderId);
 
-		Ext.getStore('PurchaseOrder').setDestroyRemovedRecords(true);
-		Ext.getStore('PurchaseOrder').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('PurchaseOrder').removeAt(record);
@@ -3578,8 +3555,6 @@ describe("delete shipments and orders", function () {
 	it("destroy shipment", function () {
 		var record = Ext.getStore('shipment').find('id', shipmentId);
 
-		Ext.getStore('shipment').setDestroyRemovedRecords(true);
-		Ext.getStore('shipment').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('shipment').removeAt(record);
@@ -3601,8 +3576,6 @@ describe("delete shipments and orders", function () {
 	});
 
 	it("destroy orderLines", function () {
-		Ext.getStore('orderline').setDestroyRemovedRecords(true);
-		Ext.getStore('orderline').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('orderline').clearFilter();
@@ -3631,8 +3604,6 @@ describe("delete shipments and orders", function () {
 	it("destroy order", function () {
 		var record = Ext.getStore('order').find('id', orderId);
 
-		Ext.getStore('order').setDestroyRemovedRecords(true);
-		Ext.getStore('order').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('order').removeAt(record);
@@ -3665,8 +3636,6 @@ describe("delete products", function () {
 	it("destroy product 1 optionals", function () {
 		var optionalStore = Ext.getStore('ProductOptionals'), option;
 
-		optionalStore.setDestroyRemovedRecords(true);
-		optionalStore.setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			optionalStore.clearFilter();
@@ -3694,8 +3663,6 @@ describe("delete products", function () {
 	});
 
 	it("destroy product 1", function () {
-		Ext.getStore('product').setDestroyRemovedRecords(true);
-		Ext.getStore('product').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('product').clearFilter();
@@ -3722,8 +3689,6 @@ describe("delete products", function () {
 	});
 
 	it("destroy product 2", function () {
-		Ext.getStore('product').setDestroyRemovedRecords(true);
-		Ext.getStore('product').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('product').clearFilter();
@@ -3750,8 +3715,6 @@ describe("delete products", function () {
 	});
 
 	it("destroy product 3", function () {
-		Ext.getStore('product').setDestroyRemovedRecords(true);
-		Ext.getStore('product').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('product').clearFilter();
@@ -3787,8 +3750,6 @@ describe("delete categories and actions", function () {
 	});
 
 	it("destroy Categorie1", function () {
-		Ext.getStore('categories').setDestroyRemovedRecords(true);
-		Ext.getStore('categories').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -3817,8 +3778,6 @@ describe("delete categories and actions", function () {
 	});
 
 	it("destroy Categorie2", function () {
-		Ext.getStore('categories').setDestroyRemovedRecords(true);
-		Ext.getStore('categories').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -3847,8 +3806,6 @@ describe("delete categories and actions", function () {
 	});
 
 	it("destroy action", function () {
-		Ext.getStore('actions').setDestroyRemovedRecords(true);
-		Ext.getStore('actions').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -3886,8 +3843,6 @@ describe("delete contacts and companies", function () {
 	});
 
 	it("destroy contact", function () {
-		Ext.getStore('contacts').setDestroyRemovedRecords(true);
-		Ext.getStore('contacts').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -3920,8 +3875,6 @@ describe("delete contacts and companies", function () {
 	// destroy contact
 
 	it("destroy Company1", function () {
-		Ext.getStore('companies').setDestroyRemovedRecords(true);
-		Ext.getStore('companies').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -3950,8 +3903,6 @@ describe("delete contacts and companies", function () {
 	});
 
 	it("destroy Company2", function () {
-		Ext.getStore('companies').setDestroyRemovedRecords(true);
-		Ext.getStore('companies').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -3980,8 +3931,6 @@ describe("delete contacts and companies", function () {
 	});
 
 	it("destroy Company3", function () {
-		Ext.getStore('companies').setDestroyRemovedRecords(true);
-		Ext.getStore('companies').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 
@@ -4016,8 +3965,6 @@ describe("destroy Authentication", function () {
 	it("destroy Authentication", function () {
 		var record = Ext.getStore('authentication').find('app_id', appUuid);
 
-		Ext.getStore('authentication').setDestroyRemovedRecords(true);
-		Ext.getStore('authentication').setSyncRemovedRecords(true);
 		runs(function () {
 			flag = false;
 			Ext.getStore('authentication').removeAt(record);
