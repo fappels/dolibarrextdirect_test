@@ -196,7 +196,7 @@ Ext.define('ConnectorTest.model.ManufactureOrderLine', {
 			name: 'unit_label' // only used local
 		},
 		{
-			name: 'mobilid_countstep',
+			name: 'ConnectorTest_countstep',
 			type: 'float'
 		},
 		{

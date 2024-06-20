@@ -55396,6 +55396,11 @@ Ext.define('ConnectorTest.controller.MainView', {extend:Ext.app.Controller, debu
   Ext.getStore('SupplierReputations').setProxy({type:'direct', directFn:ExtDirectFormProduct.readSupplierReputations});
   Ext.getStore('ProductOptionalModel').setProxy({type:'direct', directFn:ExtDirectProduct.readOptionalModel});
   Ext.getStore('ProductOptionals').setProxy({type:'direct', api:{create:ExtDirectProduct.createOptionals, read:ExtDirectProduct.readOptionals, update:ExtDirectProduct.updateOptionals, destroy:ExtDirectProduct.destroyOptionals}});
+  Ext.getStore('ManufactureOrder').setProxy({type:'direct', api:{create:ExtDirectMo.extCreate, read:ExtDirectMo.extRead, update:ExtDirectMo.extUpdate, destroy:ExtDirectMo.extDestroy}});
+  Ext.getStore('ManufactureOrderLines').setProxy({type:'direct', api:{create:ExtDirectMo.extCreateLines, read:ExtDirectMo.extReadLines, update:ExtDirectMo.extUpdateLines, destroy:ExtDirectMo.extDestroyLines}});
+  Ext.getStore('ManufactureOrderList').setProxy({type:'direct', directFn:ExtDirectMo.extList, reader:{rootProperty:'data'}});
+  Ext.getStore('ManufactureOrderConstants').setProxy({type:'direct', directFn:ExtDirectMo.readConstants});
+  Ext.getStore('ManufactureOrderStatus').setProxy({type:'direct', directFn:ExtDirectMo.readStatus});
 }, onBeforeLoaded:function(listStore, operation, eOpts) {
   var includeTotal = false, allowPaging = false;
   operation.setParams({include_total:includeTotal, allow_paging:allowPaging});
@@ -55444,7 +55449,7 @@ Ext.define('ConnectorTest.model.ManufactureOrder', {extend:ConnectorTest.model.O
 Ext.define('ConnectorTest.model.ManufactureOrderLine', {extend:Ext.data.Model, config:{fields:[{name:'id'}, {name:'local_id'}, {name:'line_id', type:'int', critical:true}, {name:'origin_id', type:'int', critical:true}, {name:'description'}, {name:'product_id', type:'int', critical:true}, {name:'qty_asked', type:'float'}, {name:'qty_frozen', type:'float'}, {defaultValue:0, name:'qty_produced', type:'float', critical:true}, {defaultValue:0, name:'qty_consumed', type:'float', critical:true}, {defaultValue:0, 
 name:'stock', type:'float'}, {name:'is_virtual_stock', type:'boolean', defaultValue:false}, {defaultValue:0, name:'qty_toprocess', type:'float', critical:true}, {name:'role', critical:true}, {name:'inventorycode'}, {name:'inventorylabel'}, {name:'ref_product'}, {name:'product_label'}, {name:'product_desc'}, {name:'product_type'}, {name:'barcode'}, {name:'barcode_type', type:'int'}, {name:'barcode_with_checksum'}, {name:'warehouse_id', type:'int', critical:true}, {name:'default_warehouse_id', type:'int'}, 
 {name:'origin_line_id', type:'int', critical:true}, {name:'origin_line_type'}, {name:'label'}, {name:'position'}, {name:'has_batch', type:'int'}, {name:'batch_id', type:'int', critical:true}, {name:'stock_id', type:'int', critical:true}, {dateFormat:'timestamp', name:'date_creation', type:'date'}, {dateFormat:'timestamp', name:'date_modification', type:'date'}, {dateFormat:'timestamp', name:'sellby', type:'date'}, {dateFormat:'timestamp', name:'eatby', type:'date'}, {name:'batch', defaultValue:'', 
-critical:true}, {name:'batch_info'}, {name:'has_photo', type:'int', critical:true}, {name:'photo_size'}, {name:'photo', allowNull:true}, {name:'hidden', type:'boolean'}, {name:'total_stock', type:'float'}, {name:'unit_id', type:'int', critical:true}, {name:'unit_label'}, {name:'mobilid_countstep', type:'float'}, {name:'app_id'}]}});
+critical:true}, {name:'batch_info'}, {name:'has_photo', type:'int', critical:true}, {name:'photo_size'}, {name:'photo', allowNull:true}, {name:'hidden', type:'boolean'}, {name:'total_stock', type:'float'}, {name:'unit_id', type:'int', critical:true}, {name:'unit_label'}, {name:'ConnectorTest_countstep', type:'float'}, {name:'app_id'}]}});
 Ext.define('ConnectorTest.model.ManufactureOrderList', {extend:Ext.data.Model, config:{fields:[{name:'id'}, {name:'ref'}, {name:'ref_bom'}, {name:'customer'}, {name:'status_id', type:'int'}, {name:'statusdisplay'}, {name:'customer_id', type:'int'}, {name:'status'}, {name:'ref_product'}, {dateFormat:'timestamp', name:'date_start_planned', type:'date'}, {name:'qty_toproduce', type:'float'}, {name:'qty_produced', type:'float'}]}});
 Ext.define('ConnectorTest.model.Optional', {extend:Ext.data.Model, fields:[{name:'id'}, {name:'object_id', type:'int', critical:true}, {name:'object_element', critical:true}, {name:'name', critical:true}, {name:'value', type:'string', defautValue:''}, {name:'raw_value'}]});
 Ext.define('ConnectorTest.model.OptionalModel', {extend:Ext.data.Model, config:{fields:[{name:'name'}, {name:'label'}, {name:'type'}, {name:'default'}, {name:'readonly', type:'int'}]}});
@@ -55506,6 +55511,13 @@ Ext.define('ConnectorTest.store.InterventionList', {extend:Ext.data.Store, confi
 Ext.define('ConnectorTest.store.InterventionStatus', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.OrderStatus', storeId:'InterventionStatus'}});
 Ext.define('ConnectorTest.store.Lang', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Lang', remoteFilter:true, storeId:'lang'}});
 Ext.define('ConnectorTest.store.Locations', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Location', storeId:'locations'}});
+Ext.define('ConnectorTest.store.ManufactureOrder', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.ManufactureOrder', remoteFilter:true, storeId:'ManufactureOrder'}});
+Ext.define('ConnectorTest.store.ManufactureOrderConstants', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Constant', remoteFilter:true, storeId:'ManufactureOrderConstants'}});
+Ext.define('ConnectorTest.store.ManufactureOrderLines', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.ManufactureOrderLine', remoteFilter:true, storeId:'ManufactureOrderLines'}});
+Ext.define('ConnectorTest.store.ManufactureOrderList', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.ManufactureOrderList', remoteFilter:true, storeId:'ManufactureOrderList', grouper:{groupFn:function(item) {
+  return item.get('statusdisplay');
+}, sortProperty:'status_id'}}});
+Ext.define('ConnectorTest.store.ManufactureOrderStatus', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.OrderStatus', storeId:'ManufactureOrderStatus'}});
 Ext.define('ConnectorTest.store.Operators', {extend:Ext.data.Store, config:{storeId:'Operators', proxy:{type:'ajax', url:'lier.xml', reader:{type:'xml', rootProperty:'Operator', record:'OffstreetParking'}}}});
 Ext.define('ConnectorTest.store.Order', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Order', remoteFilter:true, storeId:'order'}});
 Ext.define('ConnectorTest.store.OrderConstants', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Constant', remoteFilter:true, storeId:'OrderConstants'}});

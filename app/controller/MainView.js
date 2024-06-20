@@ -570,6 +570,39 @@ Ext.define('ConnectorTest.controller.MainView',
 				destroy: ExtDirectProduct.destroyOptionals
 			}
 		});
+		Ext.getStore('ManufactureOrder').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectMo.extCreate,
+				read: ExtDirectMo.extRead,
+				update: ExtDirectMo.extUpdate,
+				destroy: ExtDirectMo.extDestroy
+			}
+		});
+		Ext.getStore('ManufactureOrderLines').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectMo.extCreateLines,
+				read: ExtDirectMo.extReadLines,
+				update: ExtDirectMo.extUpdateLines,
+				destroy: ExtDirectMo.extDestroyLines
+			}
+		});
+		Ext.getStore('ManufactureOrderList').setProxy({
+			type: 'direct',
+			directFn: ExtDirectMo.extList,
+			reader: {
+				rootProperty: 'data'
+			}
+		});
+		Ext.getStore('ManufactureOrderConstants').setProxy({
+			type: 'direct',
+			directFn: ExtDirectMo.readConstants
+		});
+		Ext.getStore('ManufactureOrderStatus').setProxy({
+			type: 'direct',
+			directFn: ExtDirectMo.readStatus
+		});
 	},
 
 	/**
