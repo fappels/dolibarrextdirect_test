@@ -245,7 +245,75 @@ Ext.define('ConnectorTest.controller.MainView',
 						{"name":"createLineOptionals","len":1},
 						{"name":"updateLineOptionals","len":1},
 						{"name":"destroyLineOptionals","len":1}
-				]
+				],
+				"ExtDirectMo": [{
+					"name": "extRead",
+					"len": 1
+				},
+				{
+					"name": "extCreate",
+					"len": 1
+				},
+				{
+					"name": "extUpdate",
+					"len": 1
+				},
+				{
+					"name": "extDestroy",
+					"len": 1
+				},
+				{
+					"name": "extList",
+					"len": 1
+				},
+				{
+					"name": "readStatus",
+					"len": 1
+				},
+				{
+					"name": "readContactTypes",
+					"len": 1
+				},
+				{
+					"name": "readConstants",
+					"len": 1
+				},
+				{
+					"name": "readOptionalModel",
+					"len": 1
+				},
+				{
+					"name": "readOptionals",
+					"len": 1
+				},
+				{
+					"name": "createOptionals",
+					"len": 1
+				},
+				{
+					"name": "updateOptionals",
+					"len": 1
+				},
+				{
+					"name": "destroyOptionals",
+					"len": 1
+				},
+				{
+					"name": "extReadLines",
+					"len": 1
+				},
+				{
+					"name": "extCreateLines",
+					"len": 1
+				},
+				{
+					"name": "extUpdateLines",
+					"len": 1
+				},
+				{
+					"name": "extDestroyLines",
+					"len": 1
+				}]
 			},
 			"total":2200
 		};
