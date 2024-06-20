@@ -65,7 +65,10 @@ Ext.application({
 		'Intervention',
 		'InterventionLine',
 		'InterventionList',
-		'Shipment'
+		'Shipment',
+		'ManufactureOrder',
+		'ManufactureOrderLine',
+		'ManufactureOrderList'
     ],
     
     stores: [
@@ -125,7 +128,12 @@ Ext.application({
 			'InterventionLines',
 			'InterventionList',
 			'InterventionConstants',
-			'InterventionStatus'
+			'InterventionStatus',
+			'ManufactureOrder',
+			'ManufactureOrderConstants',
+			'ManufactureOrderLines',
+			'ManufactureOrderList',
+			'ManufactureOrderStatus'
 	],
 	
     views: [
