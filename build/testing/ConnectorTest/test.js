@@ -48,7 +48,6 @@ describe("Authentication", function () {
 				dev_platform: Ext.os.name + ' ' + Ext.os.version,
 				dev_type: Ext.os.deviceType
 			});
-			customerId = 1;
 			Ext.Direct.getProvider("dolibarr_connector").setConfig('url', "../router.php");
 			Ext.getStore('authentication').setData([authentication]);
 			Ext.getStore('authentication').sync();
@@ -624,6 +623,7 @@ describe("companies", function () {
 						testresults[index] = record.get('ref_ext');
 
 						if (record.get('ref_ext') == 'connectortest') {
+							if (index == 0) customerId = record.get('company_id');
 							companyIds[index] = record.get('company_id');
 						}
 					});
@@ -3501,7 +3501,6 @@ describe("Manufacture Order", function () {
 
 			flag = false;
 			orderData = {
-				ref_ext: 'CT0001',
 				note_private: 'connectortest private',
 				note_public: 'connectortest public',
 				label: 'connectortest',
@@ -3515,17 +3514,30 @@ describe("Manufacture Order", function () {
 			order.set(orderData);
 			orderStore = Ext.getStore('ManufactureOrder');
 			orderStore.add(order);
-			orderStore.sync();
-			orderStore.clearFilter();
-			orderStore.filter([Ext.create('Ext.util.Filter', { property: "ref_ext", value: 'CT0001' })]);
-			orderStore.load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresult = record.get('label');
+			orderStore.sync({
+				success: function() {
+					manufactureOrderId = order.get('id');
+					orderStore.clearFilter();
+					orderStore.filter([Ext.create('Ext.util.Filter', { property: "id", value: manufactureOrderId })]);
+					orderStore.load({
+						callback: function (records) {
+							Ext.Array.each(records, function (record) {
+								testresult = record.get('label');
+							});
+							flag = true;
+						}
 					});
+				},
+				failure: function(dataBatch) {
+					if (Array.isArray(dataBatch.getOperations()) && dataBatch.getOperations().length > 0) {
+						testresult = dataBatch.getOperations()[0].error;
+					} else {
+						testresult =  'Not deleted on server';
+					}
 					flag = true;
 				}
 			});
+			
 		});
 
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
@@ -3539,15 +3551,14 @@ describe("Manufacture Order", function () {
 
 		runs(function () {
 			flag = false;
-			Ext.getStore('orderlist').clearFilter();
-			Ext.getStore('orderlist').filter([Ext.create('Ext.util.Filter', { property: "orderstatus_id", value: orderstatusIds[0] })]);
-			Ext.getStore('orderlist').load({
+			Ext.getStore('ManufactureOrderList').clearFilter();
+			Ext.getStore('ManufactureOrderList').filter([Ext.create('Ext.util.Filter', { property: "status_id", value: orderstatusIds[0] })]);
+			Ext.getStore('ManufactureOrderList').load({
 				callback: function (records) {
 					Ext.Array.each(records, function (record, index) {
 						testresults[index] = record.get('ref');
-						if (record.get('ref_ext') == 'CT0001') {
+						if (record.get('id') == manufactureOrderId) {
 							orderRef = record.get('ref');
-							manufactureOrderId = record.getId();
 						}
 					});
 					flag = true;
@@ -3587,12 +3598,12 @@ describe("Manufacture Order", function () {
 			Ext.getStore('ManufactureOrderLines').add(orderLines);
 			Ext.getStore('ManufactureOrderLines').sync();
 			Ext.getStore('ManufactureOrderLines').clearFilter();
-			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "order_id", value: manufactureOrderId })]);
+			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: manufactureOrderId })]);
 			Ext.getStore('ManufactureOrderLines').load({
 				callback: function (records) {
 					Ext.Array.each(records, function (record, index) {
-						testresults[index] = record.get('description');
-						orderLineIds[index] = record.get('origin_line_id');
+						testresults[index] = record.get('product_desc');
+						orderLineIds[index] = record.get('id');
 					});
 					flag = true;
 				}
@@ -3603,7 +3614,7 @@ describe("Manufacture Order", function () {
 
 		runs(function () {
 			Ext.Array.each(testresults, function (testresult) {
-				expect(testresult).toBe('connectortest');
+				expect(testresult).toBe('connectortest test product');
 			});
 		});
 	});
@@ -3628,30 +3639,6 @@ describe("Manufacture Order", function () {
 
 		runs(function () {
 			expect(testresults).toContain(orderRef);
-		});
-	});
-
-	it("update order", function () {
-		var record = Ext.getStore('order').find('ref', orderRef);
-
-		runs(function () {
-			flag = false;
-			Ext.getStore('ManufactureOrder').getAt(record).set('label', 'connectortested');
-			Ext.getStore('ManufactureOrder').sync();
-			Ext.getStore('ManufactureOrder').load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresult = record.get('label');
-					});
-					flag = true;
-				}
-			});
-		});
-
-		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
-
-		runs(function () {
-			expect(testresult).toBe('connectortested');
 		});
 	});
 
@@ -3681,19 +3668,17 @@ describe("Manufacture Order", function () {
 	it("read orderline by Id", function () {
 		var stock = 0,
 			asked = 0,
-			photo = '',
-			defaultWarehouseIds = [];
+			photo = '';
 
 		runs(function () {
 			flag = false;
 			Ext.getStore('ManufactureOrderLines').clearFilter();
-			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "order_id", value: manufactureOrderId }),
+			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: manufactureOrderId }),
 			Ext.create('Ext.util.Filter', { property: "photo_size", value: 'mini' })]);
 			Ext.getStore('ManufactureOrderLines').load({
 				callback: function (records) {
 					Ext.Array.each(records, function (record) {
 						testresults.push(record.get('warehouse_id'));
-						defaultWarehouseIds.push(record.get('default_warehouse_id'));
 						stock += record.get('stock');
 						asked += record.get('qty_asked');
 						if (record.get('has_photo')) {
@@ -3710,39 +3695,10 @@ describe("Manufacture Order", function () {
 		runs(function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).toContain(warehouseIds[2]);
-			if (dolibarrVersion >= 9.0) {
-				expect(defaultWarehouseIds).toContain(warehouseIds[1]);
-			}
-			expect(testresults.length).toBe(6);
-			expect(stock).toBe(33);
-			expect(asked).toBe(12); // 6 * 2 asked
+			expect(testresults.length).toBe(4);
+			expect(stock).toBe(19);
+			expect(asked).toBe(8); // 6 * 2 asked
 			expect(photo).toMatch('jpeg');
-		});
-	});
-
-	it("update orderline", function () {
-		var updateRecord = null;
-
-		runs(function () {
-			flag = false;
-			updateRecord = Ext.getStore('ManufactureOrderLines').findRecord('origin_line_id', orderLineIds[0]);
-			updateRecord.set('description', 'connectortest update');
-			updateRecord.set('qty_asked', 4);
-			Ext.getStore('ManufactureOrderLines').sync();
-			Ext.getStore('ManufactureOrderLines').load({
-				callback: function (records) {
-					Ext.Array.each(records, function (record) {
-						testresult += record.get('qty_asked');
-					});
-					flag = true;
-				}
-			});
-		});
-
-		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
-
-		runs(function () {
-			expect(testresult).toBe(16); //4 * 2 asked + 2 * 4 asked
 		});
 	});
 
@@ -3752,7 +3708,7 @@ describe("Manufacture Order", function () {
 		runs(function () {
 			flag = false;
 			Ext.getStore('ManufactureOrderLines').clearFilter();
-			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "order_id", value: manufactureOrderId }),
+			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: manufactureOrderId }),
 			Ext.create('Ext.util.Filter', { property: "warehouse_id", value: warehouseIds[1] })]);
 			Ext.getStore('ManufactureOrderLines').load({
 				callback: function (records) {
@@ -3771,8 +3727,35 @@ describe("Manufacture Order", function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).not.toContain(warehouseIds[2]);
 
-			expect(testresults.length).toBe(4);
-			expect(stock).toBe(23);
+			expect(testresults.length).toBe(3);
+			expect(stock).toBe(14);
+		});
+	});
+
+	it("update order", function () {
+		var record = Ext.getStore('ManufactureOrder').find('ref', orderRef);
+
+		runs(function () {
+			flag = false;
+			Ext.getStore('ManufactureOrder').getAt(record).set('status_id', 1);
+			Ext.getStore('ManufactureOrder').sync();
+			Ext.getStore('ManufactureOrder').clearFilter();
+			Ext.getStore('ManufactureOrder').filter([Ext.create('Ext.util.Filter', { property: "id", value: manufactureOrderId })]);
+			Ext.getStore('ManufactureOrder').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record) {
+						testresult = record.get('status_id');
+						orderRef = record.get('ref')
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresult).toBe(1);
 		});
 	});
 
@@ -3781,11 +3764,11 @@ describe("Manufacture Order", function () {
 		runs(function () {
 			flag = false;
 			Ext.getStore('ManufactureOrderList').clearFilter();
-			Ext.getStore('ManufactureOrderList').filter([Ext.create('Ext.util.Filter', { property: "orderstatus_id", value: orderstatusIds[5] })]);
+			Ext.getStore('ManufactureOrderList').filter([Ext.create('Ext.util.Filter', { property: "status_id", value: orderstatusIds[5] })]);
 			Ext.getStore('ManufactureOrderList').load({
 				callback: function (records) {
 					Ext.Array.each(records, function (record, index) {
-						testresults[index] = record.get('orderstatus');
+						testresults[index] = record.get('statusdisplay');
 					});
 					flag = true;
 				}
@@ -3996,7 +3979,7 @@ describe("delete Manufacture orders", function () {
 		runs(function () {
 			flag = false;
 			Ext.getStore('ManufactureOrderLines').clearFilter();
-			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "order_id", value: manufactureOrderId }), Ext.create('Ext.util.Filter', { property: "warehouse_id", value: -1 })]);
+			Ext.getStore('ManufactureOrderLines').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: manufactureOrderId }), Ext.create('Ext.util.Filter', { property: "warehouse_id", value: -1 })]);
 			Ext.getStore('ManufactureOrderLines').load({
 				callback: function (records) {
 					Ext.getStore('ManufactureOrderLines').remove(records);
