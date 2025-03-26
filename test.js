@@ -412,18 +412,17 @@ describe("Supplier Reputations", function () {
 		testresults = [];
 
 	it("load Supplier Reputations", function () {
-		if (dolibarrVersion >= 5.0)
-			runs(function () {
-				flag = false;
-				Ext.getStore("SupplierReputations").load({
-					callback: function (records) {
-						Ext.Array.each(records, function (record, index) {
-							testresults[index] = record.get('code');
-						});
-						flag = true;
-					}
-				});
+		runs(function () {
+			flag = false;
+			Ext.getStore("SupplierReputations").load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('code');
+					});
+					flag = true;
+				}
 			});
+		});
 
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
@@ -1565,7 +1564,7 @@ describe("products", function () {
 			expect(testresults).toContain('connectortested');
 			expect(testresults).toContain(5);//stock
 			expect(testresults).toContain(12.5);//pmp 50 + 75 / 10
-			if (dolibarrVersion >= 5.0) expect(testresults).toContain(20);// desiredstock
+			expect(testresults).toContain(20);// desiredstock
 		});
 	});
 
@@ -3065,9 +3064,7 @@ describe("Purchase Order", function () {
 			expect(testresults).not.toContain(warehouseIds[2]);
 			expect(testresults.length).toBe(3);
 			expect(stock).toBe(19);
-			if (dolibarrVersion >= 5.0) {
-				expect(desiredStock).toBe(60);
-			}
+			expect(desiredStock).toBe(60);
 		});
 	});
 
