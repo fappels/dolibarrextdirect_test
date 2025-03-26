@@ -69,7 +69,8 @@ Ext.define('ConnectorTest.controller.MainView',
 						{"name":"createOptionals","len":1},
 						{"name":"updateOptionals","len":1},
 						{"name":"destroyOptionals","len":1},
-						{"name":"readAttributes","len":1}
+						{"name":"readAttributes","len":1},
+						{"name":"readConstants","len":1}
 				],
 				"ExtDirectTranslate":[
 						{"name":"load","len":1}
@@ -670,6 +671,10 @@ Ext.define('ConnectorTest.controller.MainView',
 		Ext.getStore('ManufactureOrderStatus').setProxy({
 			type: 'direct',
 			directFn: ExtDirectMo.readStatus
+		});
+		Ext.getStore('ProductConstants').setProxy({
+			type: 'direct',
+			directFn: ExtDirectProduct.readConstants
 		});
 	},
 

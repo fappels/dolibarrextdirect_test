@@ -133,7 +133,8 @@ Ext.application({
 			'ManufactureOrderConstants',
 			'ManufactureOrderLines',
 			'ManufactureOrderList',
-			'ManufactureOrderStatus'
+			'ManufactureOrderStatus',
+			'ProductConstants'
 	],
 	
     views: [

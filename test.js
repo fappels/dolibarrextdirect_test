@@ -1193,6 +1193,27 @@ describe("products", function () {
 		productStore = Ext.getStore('product');
 	});
 
+	it("read productconstants", function () {
+
+		runs(function () {
+			flag = false;
+			Ext.getStore('ProductConstants').load({
+				callback: function (records) {
+					Ext.Array.each(records, function (record, index) {
+						testresults[index] = record.get('constant');
+					});
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresults).toContain('PRODUCT_USE_SUPPLIER_PACKAGING');
+		});
+	});
+
 	it("read Optional Model", function () {
 		runs(function () {
 			var optional = {};
