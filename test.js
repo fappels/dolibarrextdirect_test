@@ -3462,7 +3462,11 @@ describe("Manufacture Order", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
-			expect(testresults).toContain('STOCK_ALLOW_NEGATIVE_TRANSFER');
+			if (dolibarrVersion >= 22.0) {
+				expect(testresults).toContain('STOCK_DISALLOW_NEGATIVE_TRANSFER');
+			} else {
+				expect(testresults).toContain('STOCK_ALLOW_NEGATIVE_TRANSFER');
+			}
 		});
 	});
 
