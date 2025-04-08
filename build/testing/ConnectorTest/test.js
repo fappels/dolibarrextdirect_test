@@ -4087,8 +4087,8 @@ describe("Inventory", function () {
 		runs(function () {
 			expect(testresults).toContain(warehouseIds[1]);
 			expect(testresults).toContain(warehouseIds[2]);
-			expect(testresults.length).toBe(4);
-			expect(stock).toBe(3);
+			expect(testresults.length).toBe(2);
+			expect(stock).toBe(2);
 			expect(photo).toMatch('jpeg');
 		});
 	});
@@ -4105,7 +4105,7 @@ describe("Inventory", function () {
 				callback: function (records) {
 					Ext.Array.each(records, function (record) {
 						testresults.push(record.get('warehouse_id'));
-						stock += record.get('stock');
+						stock += record.get('qty_stock');
 					});
 					flag = true;
 				}
@@ -4151,8 +4151,7 @@ describe("Inventory", function () {
 	});
 
 	it("update inventorylines by Id", function () {
-		var view = 0,
-			photo = '';
+		var view = 0;
 
 		runs(function () {
 			flag = false;
@@ -4164,7 +4163,6 @@ describe("Inventory", function () {
 					Ext.Array.each(records, function (record) {
 						record.set('qty_view', record.get('qty_stock'));
 					});
-					flag = true;
 					Ext.getStore('InventoryLines').sync({
 						success: function() {
 							Ext.getStore('InventoryLines').load({
@@ -4192,7 +4190,7 @@ describe("Inventory", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
-			expect(view).toBe(3);
+			expect(view).toBe(12);
 		});
 	});
 });
@@ -4412,6 +4410,75 @@ describe("delete Manufacture orders", function () {
 			Ext.getStore('ManufactureOrder').load({
 				callback: function () {
 					testresult = Ext.getStore('ManufactureOrder').find('id', manufactureOrderId);
+					flag = true;
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(record).toBe(0);
+			expect(testresult).toBe(-1);
+		});
+	});
+});
+
+describe("delete Inventories", function () {
+	var flag = false,
+		testresult = null;
+
+	beforeEach(function () {
+		testresult = null;
+	});
+
+	it("destroy inventoryLines", function () {
+		runs(function () {
+			flag = false;
+			Ext.getStore('InventoryLines').clearFilter();
+			Ext.getStore('InventoryLines').filter([Ext.create('Ext.util.Filter', { property: "origin_id", value: inventoryId })]);
+			Ext.getStore('InventoryLines').load({
+				callback: function (records) {
+					Ext.getStore('InventoryLines').remove(records);
+					Ext.getStore('InventoryLines').sync({
+						success: function() {
+							Ext.getStore('InventoryLines').load({
+								callback: function (records) {
+									testresult = records.length;
+									flag = true;
+								}
+							});
+						},
+						failure: function(dataBatch) {
+							if (Array.isArray(dataBatch.getOperations()) && dataBatch.getOperations().length > 0) {
+								testresult = dataBatch.getOperations()[0].error;
+							} else {
+								testresult =  'Not deleted on server';
+							}
+							flag = true;
+						}
+					});
+				}
+			});
+		});
+
+		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
+
+		runs(function () {
+			expect(testresult).toBe(0);
+		});
+	});
+
+	it("destroy inventory", function () {
+		var record = Ext.getStore('Inventory').find('id', inventoryId);
+
+		runs(function () {
+			flag = false;
+			Ext.getStore('Inventory').removeAt(record);
+			Ext.getStore('Inventory').sync();
+			Ext.getStore('Inventory').load({
+				callback: function () {
+					testresult = Ext.getStore('Inventory').find('id', inventoryId);
 					flag = true;
 				}
 			});

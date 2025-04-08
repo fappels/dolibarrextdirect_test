@@ -773,7 +773,7 @@ Ext.define('ConnectorTest.controller.MainView',
 			type: 'direct',
 			directFn: ExtDirectInventory.readConstants
 		});
-		Ext.getStore('InventoryOptionalModel').setProxy({
+		/*Ext.getStore('InventoryOptionalModel').setProxy({
 			type: 'direct',
 			directFn: ExtDirectInventory.readOptionalModel
 		});
@@ -785,7 +785,7 @@ Ext.define('ConnectorTest.controller.MainView',
 				update: ExtDirectInventory.updateOptionals,
 				destroy: ExtDirectInventory.destroyOptionals
 			}
-		});
+		});*/
 	},
 
 	/**

@@ -55410,8 +55410,6 @@ Ext.define('ConnectorTest.controller.MainView', {extend:Ext.app.Controller, debu
   Ext.getStore('InventoryList').setProxy({type:'direct', directFn:ExtDirectInventory.extList, reader:{rootProperty:'data'}});
   Ext.getStore('InventoryStatus').setProxy({type:'direct', directFn:ExtDirectInventory.readStatus});
   Ext.getStore('InventoryConstants').setProxy({type:'direct', directFn:ExtDirectInventory.readConstants});
-  Ext.getStore('InventoryOptionalModel').setProxy({type:'direct', directFn:ExtDirectInventory.readOptionalModel});
-  Ext.getStore('InventoryOptionals').setProxy({type:'direct', api:{create:ExtDirectInventory.createOptionals, read:ExtDirectInventory.readOptionals, update:ExtDirectInventory.updateOptionals, destroy:ExtDirectInventory.destroyOptionals}});
 }, onBeforeLoaded:function(listStore, operation, eOpts) {
   var includeTotal = false, allowPaging = false;
   operation.setParams({include_total:includeTotal, allow_paging:allowPaging});
