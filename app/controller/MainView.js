@@ -314,6 +314,70 @@ Ext.define('ConnectorTest.controller.MainView',
 				{
 					"name": "extDestroyLines",
 					"len": 1
+				}],
+				"ExtDirectInventory": [{
+					"name": "extRead",
+					"len": 1
+				},
+				{
+					"name": "extCreate",
+					"len": 1
+				},
+				{
+					"name": "extUpdate",
+					"len": 1
+				},
+				{
+					"name": "extDestroy",
+					"len": 1
+				},
+				{
+					"name": "extList",
+					"len": 1
+				},
+				{
+					"name": "readStatus",
+					"len": 1
+				},
+				{
+					"name": "readConstants",
+					"len": 1
+				},
+				{
+					"name": "readOptionalModel",
+					"len": 1
+				},
+				{
+					"name": "readOptionals",
+					"len": 1
+				},
+				{
+					"name": "createOptionals",
+					"len": 1
+				},
+				{
+					"name": "updateOptionals",
+					"len": 1
+				},
+				{
+					"name": "destroyOptionals",
+					"len": 1
+				},
+				{
+					"name": "extReadLines",
+					"len": 1
+				},
+				{
+					"name": "extCreateLines",
+					"len": 1
+				},
+				{
+					"name": "extUpdateLines",
+					"len": 1
+				},
+				{
+					"name": "extDestroyLines",
+					"len": 1
 				}]
 			},
 			"total":2200
@@ -675,6 +739,52 @@ Ext.define('ConnectorTest.controller.MainView',
 		Ext.getStore('ProductConstants').setProxy({
 			type: 'direct',
 			directFn: ExtDirectProduct.readConstants
+		});
+		Ext.getStore('Inventory').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectInventory.extCreate,
+				read: ExtDirectInventory.extRead,
+				update: ExtDirectInventory.extUpdate,
+				destroy: ExtDirectInventory.extDestroy
+			}
+		});
+		Ext.getStore('InventoryLines').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectInventory.extCreateLines,
+				read: ExtDirectInventory.extReadLines,
+				update: ExtDirectInventory.extUpdateLines,
+				destroy: ExtDirectInventory.extDestroyLines
+			}
+		});
+		Ext.getStore('InventoryList').setProxy({
+			type: 'direct',
+			directFn: ExtDirectInventory.extList,
+			reader: {
+				rootProperty: 'data'
+			}
+		});
+		Ext.getStore('InventoryStatus').setProxy({
+			type: 'direct',
+			directFn: ExtDirectInventory.readStatus
+		});
+		Ext.getStore('InventoryConstants').setProxy({
+			type: 'direct',
+			directFn: ExtDirectInventory.readConstants
+		});
+		Ext.getStore('InventoryOptionalModel').setProxy({
+			type: 'direct',
+			directFn: ExtDirectInventory.readOptionalModel
+		});
+		Ext.getStore('InventoryOptionals').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectInventory.createOptionals,
+				read: ExtDirectInventory.readOptionals,
+				update: ExtDirectInventory.updateOptionals,
+				destroy: ExtDirectInventory.destroyOptionals
+			}
 		});
 	},
 

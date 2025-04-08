@@ -68,7 +68,10 @@ Ext.application({
 		'Shipment',
 		'ManufactureOrder',
 		'ManufactureOrderLine',
-		'ManufactureOrderList'
+		'ManufactureOrderList',
+		'Inventory',
+		'InventoryLine',
+		'InventoryList'
     ],
     
     stores: [
@@ -134,7 +137,12 @@ Ext.application({
 			'ManufactureOrderLines',
 			'ManufactureOrderList',
 			'ManufactureOrderStatus',
-			'ProductConstants'
+			'ProductConstants',
+			'Inventory',
+			'InventoryLines',
+			'InventoryList',
+			'InventoryStatus',
+			'InventoryConstants'
 	],
 	
     views: [
