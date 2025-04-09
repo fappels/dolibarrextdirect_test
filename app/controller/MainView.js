@@ -756,6 +756,9 @@ Ext.define('ConnectorTest.controller.MainView',
 				read: ExtDirectInventory.extReadLines,
 				update: ExtDirectInventory.extUpdateLines,
 				destroy: ExtDirectInventory.extDestroyLines
+			},
+			reader: {
+				rootProperty: 'data'
 			}
 		});
 		Ext.getStore('InventoryList').setProxy({
