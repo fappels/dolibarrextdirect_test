@@ -469,7 +469,10 @@ Ext.define('ConnectorTest.controller.MainView',
 				read: ExtDirectCommandeFournisseur.readOrderLine,
 				update: ExtDirectCommandeFournisseur.updateOrderLine,
 				destroy: ExtDirectCommandeFournisseur.destroyOrderLine
-				}
+			},
+			reader: {
+				rootProperty: 'data'
+			}
 		});
 		Ext.getStore('Intervention').setProxy({
 			type: 'direct',
