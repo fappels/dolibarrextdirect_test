@@ -6178,8 +6178,8 @@ Ext.apply(Ext, {_namedScopes:{'this':{isThis:1}, controller:{isController:1}, ow
     }
   }
   if (!packages.ext && !packages.touch) {
-    Ext.setVersion('ext', '7.0.0.168');
-    Ext.setVersion('core', '7.0.0.168');
+    Ext.setVersion('ext', '7.0.0.156');
+    Ext.setVersion('core', '7.0.0.156');
   }
 })(Ext.manifest);
 Ext.Config = function(name) {
