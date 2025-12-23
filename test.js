@@ -3801,7 +3801,7 @@ describe("Manufacture Order", function () {
 		waitsFor(function () { return flag; }, "extdirect timeout", TIMEOUT);
 
 		runs(function () {
-			expect(testresults).toContain('Validated producible');
+			expect(testresults).toContain('Validated and producible');
 			expect(testresults).not.toContain('Validated partly producible');
 		});
 	});
