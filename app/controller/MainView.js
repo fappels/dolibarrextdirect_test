@@ -315,6 +315,28 @@ Ext.define('ConnectorTest.controller.MainView',
 					"name": "extDestroyLines",
 					"len": 1
 				}],
+				"ExtDirectReception":[
+						{"name":"extRead","len":1},
+						{"name":"extCreate","len":1},
+						{"name":"extUpdate","len":1},
+						{"name":"extDestroy","len":1},
+						{"name":"extList","len":1},
+						{"name":"readStatus","len":1},
+						{"name":"extReadLines","len":1},
+						{"name":"extCreateLines","len":1},
+						{"name":"extUpdateLines","len":1},
+						{"name":"extDestroyLines","len":1},
+						{"name":"readOptionalModel","len":1},
+						{"name":"readOptionals","len":1},
+						{"name":"createOptionals","len":1},
+						{"name":"updateOptionals","len":1},
+						{"name":"destroyOptionals","len":1},
+						{"name":"readLineOptionalModel","len":1},
+						{"name":"readLineOptionals","len":1},
+						{"name":"createLineOptionals","len":1},
+						{"name":"updateLineOptionals","len":1},
+						{"name":"destroyLineOptionals","len":1}
+				],
 				"ExtDirectInventory": [{
 					"name": "extRead",
 					"len": 1
@@ -778,6 +800,33 @@ Ext.define('ConnectorTest.controller.MainView',
 		Ext.getStore('InventoryConstants').setProxy({
 			type: 'direct',
 			directFn: ExtDirectInventory.readConstants
+		});
+		Ext.getStore('reception').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectReception.extCreate,
+				read: ExtDirectReception.extRead,
+				update: ExtDirectReception.extUpdate,
+				destroy: ExtDirectReception.extDestroy
+			}
+		});
+		Ext.getStore('receptionline').setProxy({
+			type: 'direct',
+			api: {
+				create: ExtDirectReception.extCreateLines,
+				read: ExtDirectReception.extReadLines,
+				update: ExtDirectReception.extUpdateLines,
+				destroy: ExtDirectReception.extDestroyLines
+			}
+		});
+		Ext.getStore('ReceptionList').setProxy({
+			type: 'direct',
+			directFn: ExtDirectReception.extList
+		});
+		Ext.getStore('ReceptionList').on('beforeload', this.onBeforeLoaded, this);
+		Ext.getStore('ReceptionConstants').setProxy({
+			type: 'direct',
+			directFn: ExtDirectReception.readConstants
 		});
 		/*Ext.getStore('InventoryOptionalModel').setProxy({
 			type: 'direct',
