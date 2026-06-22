@@ -71,7 +71,9 @@ Ext.application({
 		'ManufactureOrderList',
 		'Inventory',
 		'InventoryLine',
-		'InventoryList'
+		'InventoryList',
+		'Reception',
+		'ReceptionList'
     ],
     
     stores: [
@@ -142,7 +144,12 @@ Ext.application({
 			'InventoryLines',
 			'InventoryList',
 			'InventoryStatus',
-			'InventoryConstants'
+			'InventoryConstants',
+			'Reception',
+			'ReceptionLine',
+			'ReceptionList',
+			'ReceptionConstants',
+			'ReceptionStatus'
 	],
 	
     views: [
