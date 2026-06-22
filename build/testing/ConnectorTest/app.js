@@ -55411,8 +55411,8 @@ Ext.define('ConnectorTest.controller.MainView', {extend:Ext.app.Controller, debu
   Ext.getStore('InventoryList').setProxy({type:'direct', directFn:ExtDirectInventory.extList, reader:{rootProperty:'data'}});
   Ext.getStore('InventoryStatus').setProxy({type:'direct', directFn:ExtDirectInventory.readStatus});
   Ext.getStore('InventoryConstants').setProxy({type:'direct', directFn:ExtDirectInventory.readConstants});
-  Ext.getStore('reception').setProxy({type:'direct', api:{create:ExtDirectReception.extCreate, read:ExtDirectReception.extRead, update:ExtDirectReception.extUpdate, destroy:ExtDirectReception.extDestroy}});
-  Ext.getStore('receptionline').setProxy({type:'direct', api:{create:ExtDirectReception.extCreateLines, read:ExtDirectReception.extReadLines, update:ExtDirectReception.extUpdateLines, destroy:ExtDirectReception.extDestroyLines}});
+  Ext.getStore('Reception').setProxy({type:'direct', api:{create:ExtDirectReception.extCreate, read:ExtDirectReception.extRead, update:ExtDirectReception.extUpdate, destroy:ExtDirectReception.extDestroy}});
+  Ext.getStore('ReceptionLine').setProxy({type:'direct', api:{create:ExtDirectReception.extCreateLines, read:ExtDirectReception.extReadLines, update:ExtDirectReception.extUpdateLines, destroy:ExtDirectReception.extDestroyLines}});
   Ext.getStore('ReceptionList').setProxy({type:'direct', directFn:ExtDirectReception.extList});
   Ext.getStore('ReceptionList').on('beforeload', this.onBeforeLoaded, this);
   Ext.getStore('ReceptionConstants').setProxy({type:'direct', directFn:ExtDirectReception.readConstants});
@@ -55572,9 +55572,9 @@ Ext.define('ConnectorTest.store.PurchaseOrderList', {extend:Ext.data.Store, conf
   return item.get('orderstatus');
 }, sortProperty:'orderstatus_id'}}});
 Ext.define('ConnectorTest.store.PurchaseOrderStatus', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.OrderStatus', storeId:'PurchaseOrderStatus'}});
-Ext.define('ConnectorTest.store.Reception', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Reception', remoteFilter:true, storeId:'reception'}});
+Ext.define('ConnectorTest.store.Reception', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Reception', remoteFilter:true, storeId:'Reception'}});
 Ext.define('ConnectorTest.store.ReceptionConstants', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.Constant', remoteFilter:true, storeId:'ReceptionConstants'}});
-Ext.define('ConnectorTest.store.ReceptionLine', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.OrderLine', remoteFilter:true, storeId:'receptionline'}});
+Ext.define('ConnectorTest.store.ReceptionLine', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.OrderLine', remoteFilter:true, storeId:'ReceptionLine'}});
 Ext.define('ConnectorTest.store.ReceptionList', {extend:Ext.data.Store, config:{model:'ConnectorTest.model.ReceptionList', remoteFilter:true, storeId:'ReceptionList', grouper:{groupFn:function(item) {
   return item.get('statusdisplay');
 }, sortProperty:'status_id'}}});

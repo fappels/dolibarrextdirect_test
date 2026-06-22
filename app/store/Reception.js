@@ -23,6 +23,6 @@ Ext.define('ConnectorTest.store.Reception', {
     config: {
         model: 'ConnectorTest.model.Reception',
         remoteFilter: true,
-        storeId: 'reception'
+        storeId: 'Reception'
     }
 });

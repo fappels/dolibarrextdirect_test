@@ -801,7 +801,7 @@ Ext.define('ConnectorTest.controller.MainView',
 			type: 'direct',
 			directFn: ExtDirectInventory.readConstants
 		});
-		Ext.getStore('reception').setProxy({
+		Ext.getStore('Reception').setProxy({
 			type: 'direct',
 			api: {
 				create: ExtDirectReception.extCreate,
@@ -810,7 +810,7 @@ Ext.define('ConnectorTest.controller.MainView',
 				destroy: ExtDirectReception.extDestroy
 			}
 		});
-		Ext.getStore('receptionline').setProxy({
+		Ext.getStore('ReceptionLine').setProxy({
 			type: 'direct',
 			api: {
 				create: ExtDirectReception.extCreateLines,
