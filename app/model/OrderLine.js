@@ -300,6 +300,27 @@ Ext.define('ConnectorTest.model.OrderLine', {
 			name: 'product_volume'
 		},
 		{
+			name: 'label_model',
+		},
+		{
+			name: 'label_content',
+		},
+		{
+			name: 'reception_id',
+			type: 'int'
+		},
+		{
+			name: 'receptionstatus_id',
+			type: 'int'
+		},
+		{
+			name: 'receptionline_id',
+			type: 'int'
+		},
+		{
+			name: 'barcode_html'
+		},
+		{
 			name: 'app_id'
 		}
 	]
