@@ -1,5 +1,16 @@
 var $jscomp = $jscomp || {};
 $jscomp.scope = {};
+$jscomp.atMethod = function(index) {
+  var array = this;
+  var indexValue = Math.trunc(index) || 0;
+  if (indexValue < 0) {
+    indexValue += array.length;
+  }
+  if (indexValue < 0 || indexValue >= array.length) {
+    return undefined;
+  }
+  return array[indexValue];
+};
 $jscomp.ASSUME_ES5 = false;
 $jscomp.ASSUME_NO_NATIVE_MAP = false;
 $jscomp.ASSUME_NO_NATIVE_SET = false;
@@ -102,6 +113,12 @@ $jscomp.polyfillIsolated = function(target, polyfill, fromLang, toLang) {
     $jscomp.defineProperty(ownerObject, obfuscatedName, {configurable:true, writable:true, value:impl});
   }
 };
+$jscomp.polyfill('Array.prototype.at', function(orig) {
+  if (orig) {
+    return orig;
+  }
+  return $jscomp.atMethod;
+}, 'es_next', 'es5');
 $jscomp.polyfill('Array.prototype.copyWithin', function(orig) {
   if (orig) {
     return orig;
@@ -2337,6 +2354,12 @@ $jscomp.polyfill('Set', function(NativeSet) {
   };
   return PolyfillSet;
 }, 'es6', 'es3');
+$jscomp.polyfill('String.prototype.at', function(orig) {
+  if (orig) {
+    return orig;
+  }
+  return $jscomp.atMethod;
+}, 'es_next', 'es5');
 $jscomp.checkStringArgs = function(thisArg, arg, func) {
   if (thisArg == null) {
     throw new TypeError("The 'this' value for String.prototype." + func + ' must not be null or undefined');
@@ -2586,6 +2609,21 @@ $jscomp.polyfill('String.prototype.trimLeft', function(orig) {
 $jscomp.polyfill('String.prototype.trimStart', function(orig) {
   return orig || String.prototype.trimLeft;
 }, 'es_2019', 'es3');
+$jscomp.typedArrayAt = function(orig) {
+  if (orig) {
+    return orig;
+  }
+  return $jscomp.atMethod;
+};
+$jscomp.polyfill('Int8Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Uint8Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Uint8ClampedArray.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Int16Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Uint16Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Int32Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Uint32Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Float32Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
+$jscomp.polyfill('Float64Array.prototype.at', $jscomp.typedArrayAt, 'es_next', 'es5');
 $jscomp.typedArrayCopyWithin = function(orig) {
   if (orig) {
     return orig;
